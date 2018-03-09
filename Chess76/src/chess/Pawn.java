@@ -4,7 +4,7 @@ public class Pawn extends Pieces{
 	
 	String color; 
 	
-	public Knight(String color){
+	public Pawn(String color){
 		this.color=color; 
 	}
 	
