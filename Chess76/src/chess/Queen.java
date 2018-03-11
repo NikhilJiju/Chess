@@ -17,4 +17,9 @@ public class Queen extends Pieces{
 		}
 		return false; 
 	}
+	
+	public String toString(){
+		String p= color+"Q";
+		return p;
+	}
 }

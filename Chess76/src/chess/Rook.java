@@ -14,5 +14,9 @@ public class Rook extends Pieces{
 		}
 		return false; 
 	}
-
+	
+	public String toString(){
+		String p= color+"R";
+		return p;
+	}
 }

@@ -14,4 +14,9 @@ public class Bishop extends Pieces{
 		}
 		return false; 
 	}
+	
+	public String toString(){
+		String p= color+"B";
+		return p;
+	}
 }
