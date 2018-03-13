@@ -108,10 +108,30 @@ public class ChessBoard {
 		String start= moves[0]; 
 		String end= moves[1]; 
 		int starty= str2int(start.substring(0,1)); 
+		if(starty<0 || starty>7){
+			System.out.println("Illegal move, try again"); 
+			return false;
+		}
 		int startx= 8-Integer.parseInt(start.substring(1)); 
+		if(startx<0 || startx>7){
+			System.out.println("Illegal move, try again"); 
+			return false;
+		}
 		int endy= str2int(end.substring(0,1));  
+		if(endy<0 || endy>7){
+			System.out.println("Illegal move, try again"); 
+			return false;
+		}
 		int endx= 8-Integer.parseInt(end.substring(1)); 
+		if(endx<0 || endx>7){
+			System.out.println("Illegal move, try again"); 
+			return false;
+		}
 		Piece p= board[startx][starty];  
+		if(p==null){	//No piece exists in the spot the user selected. 
+			System.out.println("Illegal move, try again");
+			return false;
+		}
 		String pcolor= p.color; 
 		System.out.println(p); 
 		if(!pcolor.equals(color)){ //checks to see if the piece being moved belongs to the right player

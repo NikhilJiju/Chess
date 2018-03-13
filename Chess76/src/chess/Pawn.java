@@ -18,6 +18,37 @@ public class Pawn extends Piece{
 	 * is not jumping over other pieces. 
 	 */
 	public boolean move(int x, int y, int a, int b, Piece[][] board){
+		if(y-b==0){
+			if(x==6 && (x-a)==2 && board[5][y]==null){
+				return true;
+			}
+			if(x==1 && (a-x)==2 && board[2][y]==null){
+				return true; 
+			}
+			if(board[x][y].color.equals("w")){
+				if((x-a)==1){
+					return true; 
+				}
+			}
+			if(board[x][y].color.equals("b")){
+				if((a-x)==1){
+					return true; 
+				}
+			}
+		} 
+		if(Math.abs(x-a)==1 && Math.abs(y-b)==1){ //case where the pawn is killing a piece 
+			if(board[x][y].color.equals("w") && (x-a)==1){
+				if(board[a][b]!=null && board[a][b].color.equals("b")){
+					return true; 
+				}
+			}
+			if(board[x][y].color.equals("b") && (a-x)==1){
+				if(board[a][b]!=null && board[a][b].color.equals("w")){
+					return true; 
+				}
+			}
+		}
+		
 		return false; 
 	}
 	

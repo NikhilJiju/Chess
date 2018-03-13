@@ -18,6 +18,15 @@ public class King extends Piece{
 	 * wants to move to. 
 	 */
 	public boolean move(int x, int y, int a, int b, Piece[][] board){
+		if(Math.abs(x-a)==1 && (y-b)==0){
+			return true; 
+		}
+		if(Math.abs(y-b)==1 && (x-a)==0){
+			return true; 
+		}
+		if(Math.abs(x-a)==1 && Math.abs(y-b)==1){
+			return true; 
+		}
 		return false; 
 	}
 	

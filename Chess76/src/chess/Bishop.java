@@ -20,6 +20,18 @@ public class Bishop extends Piece{
 	 */
 	public boolean move(int x, int y, int a, int b, Piece[][] board){
 		if(Math.abs(x-a)==Math.abs(y-b)){
+			int startx= Math.min(x, a); 
+			int i= startx; 
+			int endx= Math.max(x, a);
+			int starty= Math.min(y, b); 
+			int j= starty;  
+			while(i<endx){
+				if(board[i][j]!=null){
+					return false; 
+				}
+				i++; 
+				j++; 
+			}
 			return true; 
 		}
 		return false; 
