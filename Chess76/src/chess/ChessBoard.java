@@ -1,7 +1,7 @@
 package chess;
 
 public class ChessBoard {
-	Pieces[][] board= new Pieces[8][8]; //contains pieces objects
+	Piece[][] board= new Piece[8][8]; //contains pieces objects
 	String[][] pboard= new String[9][9]; //the string representation of the above array
 	/**Initializes board and pboard*/
 	public void makeBoard(){
@@ -68,6 +68,77 @@ public class ChessBoard {
 				}
 			}
 		}
+	}
+	
+	public boolean makeMove(String color,String input){
+		String[] moves= input.split(" ");
+		String start= moves[0]; 
+		String end= moves[1]; 
+		int starty= str2int(start.substring(0,1)); 
+		int startx= 8-Integer.parseInt(start.substring(1)); 
+		int endy= str2int(end.substring(0,1));  
+		int endx= 8-Integer.parseInt(end.substring(1)); 
+		Piece p= board[startx][starty];  
+		String pcolor= p.color; 
+		System.out.println(p); 
+		if(!pcolor.equals(color)){ //checks to see if the piece being moved belongs to the right player
+			System.out.println("Illegal move, try again");
+			return false; 
+		}
+		if(p.move(startx,starty,endx,endy)){
+			Piece mp= board[endx][endy]; 
+			if(mp==null){
+				board[endx][endy]= p; 
+				board[startx][starty]=null; 
+				return true; //movement is made
+			}
+			else{
+				System.out.println(mp); 
+				if(mp.color.equals(p.color)){ //checks to see if another piece of the same player occupies that spot
+					System.out.println("Illegal move, try again-----");
+					return false;
+				}
+				else{
+					board[endx][endy]= p; 
+					board[startx][starty]=null; 
+					return true; //movement is made 
+				}
+			}
+			
+		} 
+		else{
+			System.out.println("Illegal move, try again");
+		}
+		return false; 
+	} 
+	
+	public int str2int(String str){
+		int ans=-1; 
+		if (str.compareTo("a")==0){
+			ans=0; 
+		}
+		else if(str.compareTo("b")==0){
+			ans=1; 
+		}
+		else if(str.compareTo("c")==0){
+			ans=2; 
+		}
+		else if(str.compareTo("d")==0){
+			ans=3; 
+		}
+		else if(str.compareTo("e")==0){
+			ans=4; 
+		}
+		else if(str.compareTo("f")==0){
+			ans=5; 
+		}
+		else if(str.compareTo("g")==0){
+			ans=6; 
+		}
+		else if(str.compareTo("h")==0){
+			ans=7; 
+		}
+		return ans; 
 	}
 
 }

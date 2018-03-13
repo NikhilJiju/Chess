@@ -1,11 +1,9 @@
 package chess;
 
-public class Bishop extends Pieces{
-	
-	String color; 
-	
+public class Bishop extends Piece{
+		
 	public Bishop(String color){
-		this.color= color; 
+		super(color); 
 	}
 	
 	public boolean move(int x, int y, int a, int b){

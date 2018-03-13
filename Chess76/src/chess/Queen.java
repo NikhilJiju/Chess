@@ -1,11 +1,9 @@
 package chess;
 
-public class Queen extends Pieces{
-	
-	String color; 
-	
+public class Queen extends Piece{
+		
 	public Queen(String color){
-		this.color=color; 
+		super(color); 
 	}
 	
 	public boolean move(int x, int y, int a, int b){

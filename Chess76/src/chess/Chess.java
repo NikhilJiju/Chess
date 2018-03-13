@@ -10,6 +10,7 @@ public class Chess {
 		ChessBoard game= new ChessBoard();  
 		int counter=0; 
 		game.makeBoard();
+		String color; 
 		while(true){
 			game.printBoard();
 			String[][] board= game.pboard; 
@@ -23,14 +24,19 @@ public class Chess {
 			}
 			System.out.println();
 			if(counter%2==0){
+				color="w"; 
 				System.out.print("White's move: ");
 			}
 			else{
+				color="b"; 
 				System.out.print("Black's move: ");
 			}
 			String move= scanner.nextLine(); 
+			if(game.makeMove(color,move)){
+				counter++; 
+			}
 			System.out.println();
-			counter++; 
+			
 		}
 	}
 
