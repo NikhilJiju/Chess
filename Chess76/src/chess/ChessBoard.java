@@ -1,9 +1,26 @@
 package chess;
-
+/**
+ *  This class contains the chess game as an array and delegates the actions requested from the main class. 
+ * @author 
+ *
+ *
+ */
 public class ChessBoard {
+	/**
+	 * This is an 8x8 array of Piece objects. It contains all the pieces that a chess board should contain. 
+	 */
 	Piece[][] board= new Piece[8][8]; //contains pieces objects
+	/**
+	 * This is a 9x9 array of Strings. This is the string representation of the board array and it is used in printing.  
+	 */
 	String[][] pboard= new String[9][9]; //the string representation of the above array
-	/**Initializes board and pboard*/
+	/**
+	 * The method begins by first filling the 8x8 array of pieces called board in the way a chess board is filled. Each 
+	 * piece is given the right rank of pawn, rook, etc. Also it is given the corresponding color. The rest of the board 
+	 * is left empty. 
+	 * The pboard is a string version of the board array. To initialize the 9x9 array, the 8x8 array within it is left empty 
+	 * to transfer over the board array and the outer layer is filled with a-h and 1-8 as shown in assignment 
+	 */
 	public void makeBoard(){
 		//fill second row black pawns
 		for(int j=0;j<8;j++){
@@ -49,8 +66,12 @@ public class ChessBoard {
 		pboard[6][8]="2"; 
 		pboard[7][8]="1";  
 	} 
-	/**Updates pboard so that it can be printed from the main class. The method looks through the board and 
-	 * and adds the pieces as strings in the corresponding spot on the pboard*/
+	/**
+	 * This method updates the pboard so that it can be printed from the main class. The method looks through the 8x8 
+	 * board and converts the pieces to strings and places it in the corresponding spot on the pboard. This is done 
+	 * through the toString method in each of the Piece class. By the end of the method, there will be a string representation 
+	 * of what the chess game currently looks like. 
+	 */
 	public void printBoard(){
 		for(int i=0;i<board.length;i++){
 			for(int j=0;j<board.length;j++){
@@ -69,7 +90,19 @@ public class ChessBoard {
 			}
 		}
 	}
-	
+	/**
+	 * The pieces are actually moved in this method. The method takes the user input and then converts the input into 
+	 * integer values it can use to find the location of the piece and then move the piece to that location. These
+	 * integer inputs are used to find the piece at that point in the board. Once the piece is found, the move method on 
+	 * it is called with the user inputs fed in. This method will return a boolean value which will tell whether or not the 
+	 * move is legal. If a true value is returned, the move will be done. There are also checks within this class to see 
+	 * if another one of the players piece is in the spot the user wants to move to. Also if the opponents piece is in the 
+	 * spot the player wants to move his piece to, then the method will replace that spot in the array with the player's piece 
+	 * thus eliminating the opponents piece. The color of the piece is also taken in to determine if the user is moving their own piece and not the opponents. T
+	 * @param color The color of the piece the player is supposed to move
+	 * @param input	Contains the index for the piece which is to be moved and where it will be moved to. 
+	 * @return A true value if a move has been performed and a false value otherwise. 
+	 */
 	public boolean makeMove(String color,String input){
 		String[] moves= input.split(" ");
 		String start= moves[0]; 
@@ -85,7 +118,7 @@ public class ChessBoard {
 			System.out.println("Illegal move, try again");
 			return false; 
 		}
-		if(p.move(startx,starty,endx,endy)){
+		if(p.move(startx,starty,endx,endy,board)){
 			Piece mp= board[endx][endy]; 
 			if(mp==null){
 				board[endx][endy]= p; 
@@ -95,7 +128,7 @@ public class ChessBoard {
 			else{
 				System.out.println(mp); 
 				if(mp.color.equals(p.color)){ //checks to see if another piece of the same player occupies that spot
-					System.out.println("Illegal move, try again-----");
+					System.out.println("Illegal move, try again");
 					return false;
 				}
 				else{
@@ -111,7 +144,13 @@ public class ChessBoard {
 		}
 		return false; 
 	} 
-	
+	/**
+	 * This method is a helper method for the makeMove method. It simply converts the user input given in letters to 
+	 * a corresponding number which can be used for indexing the board. The numbering is given with a set to 0 and 
+	 * incrementing for each letter. 
+	 * @param str The user input of column indexes  
+	 * @return An integer version of the user input
+	 */
 	public int str2int(String str){
 		int ans=-1; 
 		if (str.compareTo("a")==0){
