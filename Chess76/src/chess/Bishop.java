@@ -20,19 +20,60 @@ public class Bishop extends Piece{
 	 */
 	public boolean move(int x, int y, int a, int b, Piece[][] board){
 		if(Math.abs(x-a)==Math.abs(y-b)){
-			int startx= Math.min(x, a); 
-			int i= startx; 
-			int endx= Math.max(x, a);
-			int starty= Math.min(y, b); 
-			int j= starty;  
-			while(i<endx){
-				if(board[i][j]!=null){
-					return false; 
+			if(Math.min(x, a)==a && Math.min(y, b)==b){ //Movement up and left
+				int i=a+1; 
+				int j=b+1; 
+				while(i<x){
+					System.out.println(i + " " + j);
+					if(board[i][j]!=null){
+						return false; 
+					}
+					i++; 
+					j++; 
 				}
-				i++; 
-				j++; 
+				return true;
 			}
-			return true; 
+			else if(Math.min(x, a)==a && Math.min(y, b)==y){ //Movement up and right
+				int i=a+1; 
+				int j=b-1; 
+				System.out.println(i + " " + j);
+
+				while(i<x){
+					System.out.println(i + " " + j);
+					if(board[i][j]!=null){
+						return false; 
+					}
+					i++; 
+					j--; 
+				}
+				return true;
+			}
+			else if(Math.min(x, a)==x && Math.min(y, b)==b){ //Movement down and left
+				int i=a-1; 
+				int j=b+1; 
+				while(i>x){
+					System.out.println(i + " " + j);
+					if(board[i][j]!=null){
+						return false; 
+					}
+					i--; 
+					j++; 
+				}
+				return true;
+			}
+			else if(Math.min(x, a)==x && Math.min(y, b)==y){ //Movement down and right
+				int i=a-1; 
+				int j=b-1; 
+				while(i>x){
+					System.out.println(i + " " + j);
+					if(board[i][j]!=null){
+						return false; 
+					}
+					i--; 
+					j--; 
+				}
+				return true;
+			}
 		}
 		return false; 
 	}

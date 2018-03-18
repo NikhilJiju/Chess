@@ -21,7 +21,7 @@ public class Chess {
 		boolean print= true; 
 		game.makeBoard();
 		String color; 
-		while(true){
+		while(!game.kingCaptured){
 			if(print){ 			//only print board again if player has entered a valid move. 
 				game.printBoard();
 				String[][] board= game.pboard; 
@@ -45,6 +45,27 @@ public class Chess {
 			} 
 			print= true; 
 			String move= scanner.nextLine(); 
+			//implementation of draw 
+			if(game.drawRequest){
+				if (move.equals("draw")){
+					break; 
+				}
+				else{
+					game.drawRequest= false; 
+				}
+			}
+			if(move.equals("draw")){
+				System.out.println("Illegal move, try again");
+				print=false;  
+				continue; 
+			}
+			String[] moves= move.split(" ");
+			if(moves.length==3){
+				if (moves[2].equals("draw?")){
+					game.drawRequest=true; 
+				}
+			}
+
 			if(!game.makeMove(color,move)){
 				counter--; 
 				print= false; // no need to print the board again. 

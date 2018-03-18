@@ -9,11 +9,27 @@ public class ChessBoard {
 	/**
 	 * This is an 8x8 array of Piece objects. It contains all the pieces that a chess board should contain. 
 	 */
-	Piece[][] board= new Piece[8][8]; //contains pieces objects
+	Piece[][] board= new Piece[8][8]; 
 	/**
 	 * This is a 9x9 array of Strings. This is the string representation of the board array and it is used in printing.  
 	 */
-	String[][] pboard= new String[9][9]; //the string representation of the above array
+	String[][] pboard= new String[9][9];
+	/**
+	 * Keeps track of if a King piece has captured. The main class checks on this field and will keep taking inputs as long as 
+	 * this field is false. 
+	 */
+	boolean kingCaptured= false;
+	/**
+	 * This is used in dealing with an enpassant movement. This is set to true if a white piece moves two spots from 
+	 * start or if a black piece moves two spots from the start. This would allow for an enpassant move to be done by the opponent 
+	 * on the next turn
+	 */
+	/*static boolean enpassant_next= false;   
+	*//**
+	 * This keeps track of if an enpassant move is possible on the current turn. It is set to true from the  
+	 *//*
+	static boolean enpassant= false;*/ 
+	boolean drawRequest= false; 
 	/**
 	 * The method begins by first filling the 8x8 array of pieces called board in the way a chess board is filled. Each 
 	 * piece is given the right rank of pawn, rook, etc. Also it is given the corresponding color. The rest of the board 
@@ -24,7 +40,7 @@ public class ChessBoard {
 	public void makeBoard(){
 		//fill second row black pawns
 		for(int j=0;j<8;j++){
-			board[1][j]=new Pawn("b"); ; 
+			//board[1][j]=new Pawn("b"); ; 
 		} 
 		board[0][0]= new Rook("b");
 		board[0][1]= new Knight("b"); 
@@ -36,7 +52,7 @@ public class ChessBoard {
 		board[0][7]= new Rook("b");
 		//fill 7th row with white pawns 
 		for(int j=0; j<8; j++){ 
-			board[6][j]=new Pawn("w"); 
+			//board[6][j]=new Pawn("w"); 
 		}
 		board[7][0]= new Rook("w");
 		board[7][1]= new Knight("w"); 
@@ -133,7 +149,6 @@ public class ChessBoard {
 			return false;
 		}
 		String pcolor= p.color; 
-		System.out.println(p); 
 		if(!pcolor.equals(color)){ //checks to see if the piece being moved belongs to the right player
 			System.out.println("Illegal move, try again");
 			return false; 
@@ -143,17 +158,35 @@ public class ChessBoard {
 			if(mp==null){
 				board[endx][endy]= p; 
 				board[startx][starty]=null; 
+			/*	if(enpassant_next){
+					enpassant=true; 
+				}
+				else{
+					enpassant=false; 
+				}
+				enpassant_next= false; 
+				System.out.println(enpassant);*/
+				updateEnpassant(); 
 				return true; //movement is made
 			}
 			else{
-				System.out.println(mp); 
 				if(mp.color.equals(p.color)){ //checks to see if another piece of the same player occupies that spot
 					System.out.println("Illegal move, try again");
 					return false;
 				}
-				else{
+				else{ //opposing players piece occupies the spot being moved to 
+					if(mp.toString().substring(1).equalsIgnoreCase("K")){ //The piece to be captured is a King
+						if(mp.color.equals("w")){
+							System.out.println("Black wins");
+						}
+						else{
+							System.out.println("White wins");
+						}
+						kingCaptured= true; 
+					}
 					board[endx][endy]= p; 
 					board[startx][starty]=null; 
+					updateEnpassant(); 
 					return true; //movement is made 
 				}
 			}
@@ -164,6 +197,24 @@ public class ChessBoard {
 		}
 		return false; 
 	} 
+	public void updateEnpassant(){
+		for (int i=0; i<8; i++){
+			for(int j=0; j<8; j++){
+				if(board[i][j] instanceof Pawn) {
+					Pawn a= (Pawn) board[i][j];
+					if(a.enpassant){
+						if(a.enpassantcount>1){
+							a.enpassantcount=0; 
+							a.enpassant=false; 
+						}
+						else{
+							a.enpassantcount++; 
+						}
+					}
+				}
+			}
+		}
+	}
 	/**
 	 * This method is a helper method for the makeMove method. It simply converts the user input given in letters to 
 	 * a corresponding number which can be used for indexing the board. The numbering is given with a set to 0 and 

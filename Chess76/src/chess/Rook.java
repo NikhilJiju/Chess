@@ -19,21 +19,36 @@ public class Rook extends Piece{
 	 */
 	public boolean move(int x, int y, int a, int b, Piece[][] board){
 		if(x-a==0||y-b==0){
+			System.out.println("entered");
 			if(x-a==0){ //horizontal movement
-				int start= Math.min(y, b); 
-				int end= Math.max(y, b); 
-				for(int i=start; i<end; i++){
-					if(board[x][i]!=null){
-						return false; 
+				if(Math.min(y, b)==b){ 
+					for(int i=b+1; i<y; i++){
+						if(board[x][i]!=null){
+							return false; 
+						}
+					}
+				}
+				else if(Math.min(y, b)==y){
+					for(int i=b-1; i>y; i--){
+						if(board[x][i]!=null){
+							return false; 
+						}
 					}
 				}
 			}
 			else{//vertical movement 
-				int start= Math.min(x, a); 
-				int end= Math.max(x, a); 
-				for(int j=start; j<end; j++){
-					if(board[j][y]!=null){
-						return false; 
+				if(Math.min(x, a)==a){ 
+					for(int j=a+1; j<x; j++){
+						if(board[j][y]!=null){
+							return false; 
+						}
+					}
+				}
+				else if(Math.min(x, a)==x){
+					for(int j=a-1; j>x; j--){
+						if(board[j][y]!=null){
+							return false; 
+						}
 					}
 				}
 			}

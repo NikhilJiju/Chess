@@ -9,8 +9,12 @@ public class Pawn extends Piece{
 	 * Constructs a Pawn object with call to the superclass whihc sets the color to what is passed in. 
 	 * @param color The color of the piece. 
 	 */
+	boolean enpassant;
+	int enpassantcount; 
 	public Pawn(String color){
 		super(color); 
+		enpassant= false; 
+		enpassantcount= 0; 
 	}
 	
 	/**
@@ -20,9 +24,13 @@ public class Pawn extends Piece{
 	public boolean move(int x, int y, int a, int b, Piece[][] board){
 		if(y-b==0){
 			if(x==6 && (x-a)==2 && board[5][y]==null){
+				//ChessBoard.enpassant_next= true; 
+				enpassant= true; 
 				return true;
 			}
 			if(x==1 && (a-x)==2 && board[2][y]==null){
+				//ChessBoard.enpassant_next= true; 
+				enpassant= true; 
 				return true; 
 			}
 			if(board[x][y].color.equals("w")){
@@ -41,14 +49,40 @@ public class Pawn extends Piece{
 				if(board[a][b]!=null && board[a][b].color.equals("b")){
 					return true; 
 				}
+				/*else if(ChessBoard.enpassant && board[2][b]==null && board[3][b]!=null && board[3][b].toString().equals("bP")){
+					board[3][b]= null; 
+					return true; 
+				}*/
+				else if(board[2][b]==null && board[3][b]!=null && board[3][b].toString().equals("bP")){
+					Pawn opp= (Pawn) board[3][b];
+					if(opp.enpassant){
+						System.out.println(opp.enpassantcount);
+						board[3][b]= null; 
+						return true;
+					}
+					
+				}
 			}
 			if(board[x][y].color.equals("b") && (a-x)==1){
 				if(board[a][b]!=null && board[a][b].color.equals("w")){
 					return true; 
 				}
+				/*else if(ChessBoard.enpassant && board[a][b]==null && board[a-1][b]!=null && board[a-1][b].toString().equals("wP")){
+					board[a-1][b]= null;
+					return true; 
+				}*/
+				else if(board[a][b]==null && board[a-1][b]!=null && board[a-1][b].toString().equals("wP")){
+					Pawn opp= (Pawn) board[a-1][b];
+					if(opp.enpassant){
+						board[a-1][b]= null; 
+						return true;
+					}
+					
+					
+				}			
 			}
 		}
-		
+	
 		return false; 
 	}
 	
