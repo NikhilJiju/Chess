@@ -86,6 +86,26 @@ public class Pawn extends Piece{
 		return false; 
 	}
 	
+	public boolean check(int x, int y, Piece[][] board){
+		if(color.equals("b")){
+			if(y+1<8 && x+1<8 && board[x+1][y+1]!=null && board[x+1][y+1].toString().equals("wK")) {
+				return true;
+			}
+			if(y-1>=0 && x+1<8 && board[x+1][y-1]!=null && board[x+1][y-1].toString().equals("wK")) {
+				return true;
+			}
+		}
+		if(color.equals("w")){
+			if(y+1<8 && x-1>=0 &&  board[x-1][y+1]!=null && board[x-1][y+1].toString().equals("bK")){
+				return true; 
+			}
+			if(y-1>=0 && x-1>=0 &&  board[x-1][y-1]!=null && board[x-1][y-1].toString().equals("bK")){
+				return true; 
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Gives a string representation using color and the name "P". 
 	 */

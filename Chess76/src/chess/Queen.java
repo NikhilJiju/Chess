@@ -142,6 +142,224 @@ public class Queen extends Piece{
 		return false; 
 	}
 	
+	public boolean check(int x, int y, Piece[][] board){
+		int origX = x;
+		int origY = y;
+		if(color.equals("b")){
+			while(x+1<8) {//front
+				x++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(y-1>=0) {//left
+				y--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(y+1<8) {//right
+				y++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x-1>=0) {//back
+				x--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x+1<8 && y+1<8) {//front-right diagonal
+				x++;y++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x+1<8 && y-1>=0) {//front-left diagonal
+				x++;y--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x-1>=0 && y+1<8) {//back-right diagonal
+				x--;y++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x-1>=0 && y-1>=0) {//back-left diagonal
+				x--;y--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("wK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+		}
+		if(color.equals("w")){
+			while(x+1<8) {//front
+				x++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(y-1>=0) {//left
+				y--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(y+1<8) {//right
+				y++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x-1>=0) {//back
+				x--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;	
+			
+			while(x+1<8 && y+1<8) {//front-right diagonal
+				x++;y++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x+1<8 && y-1>=0) {//front-left diagonal
+				x++;y--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x-1>=0 && y+1<8) {//back-right diagonal
+				x--;y++; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+			
+			while(x-1>=0 && y-1>=0) {//back-left diagonal
+				x--;y--; //move to next piece
+				if (board[x][y]!=null) {
+					if (board[x][y].toString().equals("bK")) {
+						return true;
+					}else {
+						break;
+					}
+				}
+			}
+			
+			x = origX; y = origY;
+		}
+		return false;
+	}
+	
+	
 	/**
 	 * Returns the string representation of Queen with color and name "Q". 
 	 */
