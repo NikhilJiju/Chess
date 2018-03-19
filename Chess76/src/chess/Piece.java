@@ -33,6 +33,10 @@ public class Piece {
 		return false;
 	}
 	
+	public boolean check(int x, int y, Piece[][] board){
+		return false; 
+	}
+	
 	/**
 	 * Gives a string representation of the piece. This method is only here so that it will be redefined in the subclasses. 
 	 */

@@ -45,6 +45,16 @@ public class Chess {
 			} 
 			print= true; 
 			String move= scanner.nextLine(); 
+			//implementation of resign 
+			if(move.equals("resign")){
+				if(color.equals("w")){
+					System.out.println("Black wins");
+				}
+				else{
+					System.out.println("White wins");
+				}
+				break; 
+			}
 			//implementation of draw 
 			if(game.drawRequest){
 				if (move.equals("draw")){

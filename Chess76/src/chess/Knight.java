@@ -17,8 +17,69 @@ public class Knight extends Piece{
 	 * Knight can jump over pieces. 
 	 */
 	public boolean move(int x, int y, int a, int b, Piece[][] board){
-		if(Math.abs(Math.abs(x-a)-Math.abs(y-b))==1){
+		if(Math.abs(x-a)==2 && Math.abs(y-b)==1){
 			return true; 
+		}
+		else if(Math.abs(x-a)==1 && Math.abs(y-b)==2){
+			return true; 
+		}
+		return false; 
+	}
+	
+	public boolean check(int x, int y, Piece[][] board){
+		if(color.equals("b")){
+			if(x+2<8 && y+1<8 && board[x+2][y+1]!=null && board[x+2][y+1].toString().equals("wK")){
+				return true; 
+			}
+			if(x+2<8 && y-1>=0 && board[x+2][y-1]!=null && board[x+2][y-1].toString().equals("wK")){
+				return true; 
+			}
+			if(x-2>=0 && y+1<8 && board[x-2][y+1]!=null && board[x-2][y+1].toString().equals("wK")){
+				return true; 
+			}
+			if(x-2>=0 && y-1>=0 && board[x-2][y-1]!=null && board[x-2][y-1].toString().equals("wK")){
+				return true; 
+			}
+			
+			if(y+2<8 && x+1<8 && board[x+1][y+2]!=null && board[x+1][y+2].toString().equals("wK")){
+				return true; 
+			}
+			if(y+2<8 && x-1>=0 && board[x-1][y+2]!=null && board[x-1][y+2].toString().equals("wK")){
+				return true; 
+			}
+			if(y-2>=0 && x+1<8 && board[x+1][y-2]!=null && board[x+1][y-2].toString().equals("wK")){
+				return true; 
+			}
+			if(y-2>=0 && x-1>=0 && board[x-1][y-2]!=null && board[x-1][y-2].toString().equals("wK")){
+				return true; 
+			}
+		}
+		if(color.equals("w")){
+			if(x+2<8 && y+1<8 &&  board[x+2][y+1]!=null && board[x+2][y+1].toString().equals("bK")){
+				return true; 
+			}
+			if(x+2<8 && y-1>=0 && board[x+2][y-1]!=null && board[x+2][y-1].toString().equals("bK")){
+				return true; 
+			}
+			if(x-2>=0 && y+1<8 && board[x-2][y+1]!=null && board[x-2][y+1].toString().equals("bK")){
+				return true; 
+			}
+			if(x-2>=0 && y-1>=0 && board[x-2][y-1]!=null && board[x-2][y-1].toString().equals("bK")){
+				return true; 
+			}
+			
+			if(y+2<8 && x+1<8 && board[x+1][y+2]!=null && board[x+1][y+2].toString().equals("bK")){
+				return true; 
+			}
+			if(y+2<8 && x-1>=0 && board[x-1][y+2]!=null && board[x-1][y+2].toString().equals("bK")){
+				return true; 
+			}
+			if(y-2>=0 && x+1<8 && board[x+1][y-2]!=null && board[x+1][y-2].toString().equals("bK")){
+				return true; 
+			}
+			if(y-2>=0 && x-1>=0 && board[x-1][y-2]!=null && board[x-1][y-2].toString().equals("bK")){
+				return true; 
+			}
 		}
 		return false; 
 	}

@@ -40,7 +40,7 @@ public class ChessBoard {
 	public void makeBoard(){
 		//fill second row black pawns
 		for(int j=0;j<8;j++){
-			//board[1][j]=new Pawn("b"); ; 
+			board[1][j]=new Pawn("b"); ; 
 		} 
 		board[0][0]= new Rook("b");
 		board[0][1]= new Knight("b"); 
@@ -52,7 +52,7 @@ public class ChessBoard {
 		board[0][7]= new Rook("b");
 		//fill 7th row with white pawns 
 		for(int j=0; j<8; j++){ 
-			//board[6][j]=new Pawn("w"); 
+			board[6][j]=new Pawn("w"); 
 		}
 		board[7][0]= new Rook("w");
 		board[7][1]= new Knight("w"); 
@@ -60,7 +60,7 @@ public class ChessBoard {
 		board[7][3]= new Queen("w"); 
 		board[7][4]= new King("w"); 
 		board[7][5]= new Bishop("w"); 
-		board[7][6]= new Knight("w");
+		board[3][7]= new Knight("w");
 		board[7][7]= new Rook("w");
 		
 		//initialize the string version 
@@ -167,6 +167,9 @@ public class ChessBoard {
 				enpassant_next= false; 
 				System.out.println(enpassant);*/
 				updateEnpassant(); 
+				if(p.check(endx,endy,board)){
+					System.out.println("Check");
+				} 
 				return true; //movement is made
 			}
 			else{
@@ -187,6 +190,9 @@ public class ChessBoard {
 					board[endx][endy]= p; 
 					board[startx][starty]=null; 
 					updateEnpassant(); 
+					if(p.check(endx,endy,board)){
+						System.out.println("Check");
+					} 
 					return true; //movement is made 
 				}
 			}
