@@ -30,6 +30,8 @@ public class ChessBoard {
 	 *//*
 	static boolean enpassant= false;*/ 
 	boolean drawRequest= false; 
+	boolean white_on_check= false; 
+	boolean black_on_check= false; 
 	/**
 	 * The method begins by first filling the 8x8 array of pieces called board in the way a chess board is filled. Each 
 	 * piece is given the right rank of pawn, rook, etc. Also it is given the corresponding color. The rest of the board 
@@ -167,9 +169,21 @@ public class ChessBoard {
 				enpassant_next= false; 
 				System.out.println(enpassant);*/
 				updateEnpassant(); 
-				if(p.check(endx,endy,board)){
-					System.out.println("Check");
-				} 
+				for(int i=0; i<8; i++){
+					for(int j=0; j<8; j++){
+						if(board[i][j]!=null){
+							if(board[i][j].check(i, j, board)){
+								if(board[i][j].color.equals("w")){
+									black_on_check= true; 
+								}
+								if(board[i][j].color.equals("b")){
+									white_on_check=true; 
+								}
+								break; 
+							} 
+						}
+					}
+				}
 				return true; //movement is made
 			}
 			else{
@@ -190,8 +204,20 @@ public class ChessBoard {
 					board[endx][endy]= p; 
 					board[startx][starty]=null; 
 					updateEnpassant(); 
-					if(p.check(endx,endy,board)){
-						System.out.println("Check");
+					for(int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(board[i][j]!=null){
+								if(board[i][j].check(i, j, board)){
+									if(board[i][j].color.equals("w")){
+										black_on_check= true; 
+									}
+									if(board[i][j].color.equals("b")){
+										white_on_check=true; 
+									}
+									break; 
+								} 
+							}
+						}
 					} 
 					return true; //movement is made 
 				}

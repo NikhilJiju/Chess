@@ -37,10 +37,16 @@ public class Chess {
 			}
 			if(counter%2==0){
 				color="w"; 
+				if(game.white_on_check){
+					System.out.println("Check");
+				}
 				System.out.print("White's move: ");
 			}
 			else{
 				color="b"; 
+				if(game.black_on_check){
+					System.out.println("check");
+				}
 				System.out.print("Black's move: ");
 			} 
 			print= true; 
