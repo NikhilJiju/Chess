@@ -1,4 +1,7 @@
 package chess;
+
+import java.util.ArrayList;
+
 /**
  *  This class contains the chess game as an array and delegates the actions requested from the main class. 
  * @author 
@@ -61,7 +64,7 @@ public class ChessBoard {
 		board[7][2]= new Bishop("w");  
 		board[7][3]= new Queen("w"); 
 		board[7][4]= new King("w"); 
-		board[4][2]= new Bishop("w"); 
+		board[7][5]= new Bishop("w"); 
 		board[3][7]= new Knight("w");
 		board[7][7]= new Rook("w");
 		
@@ -178,6 +181,46 @@ public class ChessBoard {
 					enpassant_next= false; 
 					System.out.println(enpassant);*/
 					updateEnpassant(); 
+					int bi=0; 
+					int bj=0; 
+					int wi=0; 
+					int wj=0; 
+					for(int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(board[i][j]!=null){
+								if(board[i][j].check(i, j, board)){
+									if(board[i][j].color.equals("w")){
+										black_on_check= true; 
+									}
+									if(board[i][j].color.equals("b")){
+										white_on_check=true; 
+									}
+								} 
+								if(board[i][j].toString().equals("wK")){
+									wi= i; 
+									wj= j; 
+								}
+								if(board[i][j].toString().equals("bK")){
+									bi= i; 
+									bj= j; 
+								}
+							}
+						}
+					}
+					if(color.equals("w")&&black_on_check){
+						if(checkmate(bi,bj,color)){
+							if(!canKill("w")){
+								System.out.println("Checkmate White");
+							}
+						} 
+					}
+					if(color.equals("b")&&white_on_check){
+						if(checkmate(wi,wj,color)){
+							if(!canKill("b")){
+								System.out.println("Checkmate Blac");
+							}
+						} 
+					}
 					allCheck(board);
 					if(p.toString().substring(1).equalsIgnoreCase("P")) {
 						if (p.toString().substring(0).equals("b")) {
@@ -216,6 +259,21 @@ public class ChessBoard {
 						board[endx][endy]= p; 
 						board[startx][starty]=null; 
 						updateEnpassant(); 
+						for(int i=0; i<8; i++){
+							for(int j=0; j<8; j++){
+								if(board[i][j]!=null){
+									if(board[i][j].check(i, j, board)){
+										if(board[i][j].color.equals("w")){
+											black_on_check= true; 
+										}
+										if(board[i][j].color.equals("b")){
+											white_on_check=true; 
+										}
+										break; 
+									} 
+								}
+							}
+						} 
 						allCheck(board);
 						return true; //movement is made 
 					}else {
@@ -231,6 +289,91 @@ public class ChessBoard {
 		}
 		return false; 
 	} 
+	
+	public boolean canKill(String color){
+		ArrayList<Integer[]> checkers= new ArrayList<Integer[]>(); 
+		if(color.equals("w")){
+			for(int i=0; i<8; i++){
+				for(int j=0; j<8; j++){
+					if(board[i][j]!=null && board[i][j].color.equals("w") && board[i][j].check(i, j, board)){
+						Integer[] position= new Integer[2]; 
+						position[0]=i; 
+						position[1]=j; 
+						checkers.add(position);
+					}
+				}
+			}
+			int index=0; 
+			boolean cankill= false; 
+			while(index<checkers.size()){
+				Integer[] position= checkers.get(0); 
+				int a= position[0]; 
+				int b= position[1]; 
+				for(int i=0; i<8; i++){
+					for(int j=0; j<8; j++){
+						if(board[i][j]!=null && board[i][j].color.equals("b") && board[i][j].move(i, j, a, b, board)){
+							//add condition where move does not leave king to be vulnerable 
+							if(board[i][j].toString().equals("bP")&&(a-i)==2){
+								 
+							}
+							else{
+								cankill=true; 
+								 break; 
+							}
+						}
+					}
+				}
+				if(!cankill){  //If you go through the for loop and do not find a case where you can kill the piece then you cant kill it
+					return false; 
+				}
+				cankill= false; 
+				index++; 
+			}
+			return true; 
+		}
+		else{
+			for(int i=0; i<8; i++){
+				for(int j=0; j<8; j++){
+					if(board[i][j]!=null && board[i][j].color.equals("b") && board[i][j].check(i, j, board)){
+						Integer[] position= new Integer[2]; 
+						position[0]=i; 
+						position[1]=j; 
+						checkers.add(position);
+					}
+				}
+			}
+			int index=0; 
+			boolean cankill= false; 
+			while(index<checkers.size()){
+				Integer[] position= checkers.get(0); 
+				int a= position[0]; 
+				int b= position[1]; 
+				for(int i=0; i<8; i++){
+					for(int j=0; j<8; j++){
+						if(board[i][j]!=null && board[i][j].color.equals("w") && board[i][j].move(i, j, a, b, board)){
+							//add condition where move does not leave king to be vulnerable 
+							if(board[i][j].toString().equals("wP")&&(i-a)==2){
+								 
+							}
+							else{
+								cankill=true; 
+								 break; 
+							}
+							
+							
+						}
+					}
+				}
+				System.out.println(cankill);
+				if(!cankill){
+					return false; 
+				}
+				cankill= false; 
+				index++; 
+			}
+			return true; 
+		}
+	}
 	
 	public void promotePiece(int endx, int endy, String promotedPiece,String color) {
 		
@@ -304,6 +447,130 @@ public class ChessBoard {
 			return true;
 		}				
 	}
+	
+	private boolean checkmate(int i, int j, String color) {
+		// TODO Auto-generated method stub
+		System.out.println(board[i][j]);
+			Piece king= board[i][j]; 
+			if(i+1<8 && j+1<8){
+				if(king.move(i,j,i+1,j+1,board)){
+					System.out.println("here 1");
+					if(checkmove(i,j,i+1,j+1,color)){
+						return false; 
+					}	
+				}
+			}
+			if(i+1<8 && j-1>=0){
+				if(king.move(i,j,i+1,j-1,board)){
+					System.out.println("here 2");
+					if(checkmove(i,j,i+1,j-1,color)){
+						return false; 
+					} 
+				}
+			}
+			if(i+1<8){
+				if(king.move(i,j,i+1,j,board)){
+					System.out.println("here 3");
+					if(checkmove(i,j,i+1,j,color)){
+						return false; 
+					} 
+				}
+			}
+			if(i-1>=0 && j+1<8){
+				if(king.move(i,j,i-1,j+1,board)){
+					System.out.println("here 3.5");
+					if(checkmove(i,j,i-1,j+1,color)){
+						return false; 
+					} 
+				}
+			}
+			if(i-1>=0 && j-1>=0){
+				if(king.move(i,j,i-1,j-1,board)){
+					System.out.println("here 4");
+					if(checkmove(i,j,i-1,j-1,color)){
+						return false; 
+					} 
+				}
+			}
+			if(i-1>=0){
+				if(king.move(i,j,i-1,j,board)){
+					System.out.println("here 5");
+					if(checkmove(i,j,i-1,j,color)){
+						return false; 
+					} 
+				}
+			}
+			if(j+1<8){
+				if(king.move(i,j,i,j+1,board)){
+					System.out.println("here 6");
+					if(checkmove(i,j,i,j+1,color)){
+						return false; 
+					} 
+				}
+			}
+			if(j-1>=0){
+				if(king.move(i,j,i,j-1,board)){
+					System.out.println("here 7");
+					if(checkmove(i,j,i,j-1,color)){
+						return false;
+					} 
+				}
+			}
+			System.out.println("here");
+			return true; 
+		
+	}
+	
+	 public boolean checkmove(int startx, int starty, int endx, int endy, String color){
+	    	Piece mp= board[endx][endy]; 
+	    	Piece p= board[startx][starty];
+			if(mp==null){
+				board[endx][endy]= p; 
+				board[startx][starty]=null; 
+				for(int i=0; i<8; i++){
+					for(int j=0; j<8; j++){
+						if(board[i][j]!=null){
+							if(board[i][j].check(i, j, board)){
+								if(white_on_check||black_on_check){
+									board[startx][starty]=p; 
+									board[endx][endy]=null; //reset move
+									return false; //piece is in check 
+								}
+							} 
+						}
+					}
+				}
+				board[startx][starty]=p; 
+				board[endx][endy]=null; //reset move
+				return true; //movement is made
+			}
+			else{
+				if(mp.color.equals(p.color)){ //checks to see if another piece of the same player occupies that spot
+					return false; //movement cannot be made
+				}
+				else{ //opposing players piece occupies the spot being moved to 
+					Piece old= board[endx][endy]; 
+					board[endx][endy]= p; 
+					board[startx][starty]=null; 
+					for(int i=0; i<8; i++){
+						for(int j=0; j<8; j++){
+							if(board[i][j]!=null){
+								if(board[i][j].check(i, j, board)){
+									if((color.equals("b")&&white_on_check)||(color.equals("w")&&black_on_check)){
+										board[startx][starty]=p; 
+										board[endx][endy]=old; //reset move
+										return false; 
+									}
+								} 
+							}
+						}
+					} 
+					board[startx][starty]=p; 
+					board[endx][endy]=old; //reset move
+					return true; //movement can be made 
+				}
+			}
+		}
 	
 	public void updateEnpassant(){
 		for (int i=0; i<8; i++){
