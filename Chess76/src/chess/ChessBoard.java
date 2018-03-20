@@ -35,6 +35,8 @@ public class ChessBoard {
 	boolean drawRequest= false; 
 	boolean white_on_check= false; 
 	boolean black_on_check= false; 
+	boolean white_on_checkmate= false; 
+	boolean black_on_checkmate= false; 
 	/**
 	 * The method begins by first filling the 8x8 array of pieces called board in the way a chess board is filled. Each 
 	 * piece is given the right rank of pawn, rook, etc. Also it is given the corresponding color. The rest of the board 
@@ -210,6 +212,7 @@ public class ChessBoard {
 					if(color.equals("w")&&black_on_check){
 						if(checkmate(bi,bj,color)){
 							if(!canKill("w")){
+								black_on_checkmate=true; 
 								System.out.println("Checkmate White");
 							}
 						} 
@@ -217,6 +220,7 @@ public class ChessBoard {
 					if(color.equals("b")&&white_on_check){
 						if(checkmate(wi,wj,color)){
 							if(!canKill("b")){
+								white_on_checkmate=true; 
 								System.out.println("Checkmate Blac");
 							}
 						} 
@@ -256,6 +260,12 @@ public class ChessBoard {
 						kingCaptured= true; 
 					}
 					if(tryMove(startx,starty,endx,endy,board,p)) {
+						if(p.toString().substring(1).equals("P")){
+							if(endy-starty==0){
+								System.out.println("Illegal move, try again");
+								return false;
+							}
+						}
 						board[endx][endy]= p; 
 						board[startx][starty]=null; 
 						updateEnpassant(); 
@@ -303,9 +313,8 @@ public class ChessBoard {
 					}
 				}
 			}
-			int index=0; 
-			boolean cankill= false; 
-			while(index<checkers.size()){
+			if(checkers.size()==1){ 
+				boolean cankill= false; 
 				Integer[] position= checkers.get(0); 
 				int a= position[0]; 
 				int b= position[1]; 
@@ -313,23 +322,24 @@ public class ChessBoard {
 					for(int j=0; j<8; j++){
 						if(board[i][j]!=null && board[i][j].color.equals("b") && board[i][j].move(i, j, a, b, board)){
 							//add condition where move does not leave king to be vulnerable 
-							if(board[i][j].toString().equals("bP")&&(a-i)==2){
-								 
+							if(tryMove(i,j,a,b,board,board[i][j])){
+								if(board[i][j].toString().equals("bP")&&(b-j)==0){
+									 
+								}
+								else{
+									cankill=true; 
+									 break; 
+								}
 							}
-							else{
-								cankill=true; 
-								 break; 
-							}
+							
 						}
 					}
 				}
-				if(!cankill){  //If you go through the for loop and do not find a case where you can kill the piece then you cant kill it
-					return false; 
-				}
-				cankill= false; 
-				index++; 
+				return cankill; 
 			}
-			return true; 
+			else{
+				return false; 
+			}
 		}
 		else{
 			for(int i=0; i<8; i++){
@@ -342,9 +352,8 @@ public class ChessBoard {
 					}
 				}
 			}
-			int index=0; 
-			boolean cankill= false; 
-			while(index<checkers.size()){
+			if(checkers.size()==1){ 
+				boolean cankill= false; 
 				Integer[] position= checkers.get(0); 
 				int a= position[0]; 
 				int b= position[1]; 
@@ -352,26 +361,24 @@ public class ChessBoard {
 					for(int j=0; j<8; j++){
 						if(board[i][j]!=null && board[i][j].color.equals("w") && board[i][j].move(i, j, a, b, board)){
 							//add condition where move does not leave king to be vulnerable 
-							if(board[i][j].toString().equals("wP")&&(i-a)==2){
-								 
+							if(tryMove(i,j,a,b,board,board[i][j])){
+								if(board[i][j].toString().equals("wP")&&(b-j)==0){
+									 
+								}
+								else{
+									cankill=true; 
+									 break; 
+								}
 							}
-							else{
-								cankill=true; 
-								 break; 
-							}
-							
 							
 						}
 					}
 				}
-				System.out.println(cankill);
-				if(!cankill){
-					return false; 
-				}
-				cankill= false; 
-				index++; 
+				return cankill; 
 			}
-			return true; 
+			else{
+				return false; 
+			}		
 		}
 	}
 	
@@ -432,6 +439,8 @@ public class ChessBoard {
 				board3[a][b]=replaced;
 				return false;	//can't move piece so own king is checked
 			}else {
+				board3[x][y]=p;
+				board3[a][b]=replaced;
 				return true;
 			}
 		}else if(checker.equals("white")) { //white king checked
@@ -441,9 +450,13 @@ public class ChessBoard {
 				board3[a][b]=replaced;
 				return false;	//can't move piece so own king is checked
 			}else {
+				board3[x][y]=p;
+				board3[a][b]=replaced;
 				return true;
 			}
 		}else {
+			board3[x][y]=p;
+			board3[a][b]=replaced;
 			return true;
 		}				
 	}
@@ -531,7 +544,7 @@ public class ChessBoard {
 					for(int j=0; j<8; j++){
 						if(board[i][j]!=null){
 							if(board[i][j].check(i, j, board)){
-								if(white_on_check||black_on_check){
+								if((color.equals("b")&&white_on_check)||(color.equals("w")&&black_on_check)){
 									board[startx][starty]=p; 
 									board[endx][endy]=null; //reset move
 									return false; //piece is in check 

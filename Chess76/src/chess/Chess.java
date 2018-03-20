@@ -38,14 +38,28 @@ public class Chess {
 			if(counter%2==0){
 				color="w"; 
 				if(game.white_on_check){
-					System.out.println("Check");
+					if(game.white_on_checkmate){
+						System.out.println("Checkmate");
+						System.out.println("Black wins");
+						break;
+					}
+					else{
+						System.out.println("Check");
+					}
 				}
 				System.out.print("White's move: ");
 			}
 			else{
 				color="b"; 
 				if(game.black_on_check){
-					System.out.println("check");
+					if(game.black_on_checkmate){
+						System.out.println("Checkmate");
+						System.out.println("White wins");
+						break; 
+					}
+					else{
+						System.out.println("Check");
+					}
 				}
 				System.out.print("Black's move: ");
 			} 
