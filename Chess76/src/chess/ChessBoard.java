@@ -61,7 +61,7 @@ public class ChessBoard {
 		board[7][2]= new Bishop("w");  
 		board[7][3]= new Queen("w"); 
 		board[7][4]= new King("w"); 
-		board[7][5]= new Bishop("w"); 
+		board[4][2]= new Bishop("w"); 
 		board[3][7]= new Knight("w");
 		board[7][7]= new Rook("w");
 		
@@ -125,6 +125,12 @@ public class ChessBoard {
 		String[] moves= input.split(" ");
 		String start= moves[0]; 
 		String end= moves[1]; 
+		String promotedPiece ="";
+		if (moves.length==3) {
+			if(!moves[2].equals("draw?")) {
+				promotedPiece = moves[2];
+			}
+		}
 		int starty= str2int(start.substring(0,1)); 
 		if(starty<0 || starty>7){
 			System.out.println("Illegal move, try again"); 
@@ -155,38 +161,43 @@ public class ChessBoard {
 			System.out.println("Illegal move, try again");
 			return false; 
 		}
+		//here!! - CANNOT CREATE COPY OF BOARD - REFERS TO SAME BOARD
+		//Piece[][] tryBoard = board;
 		if(p.move(startx,starty,endx,endy,board)){
 			Piece mp= board[endx][endy]; 
 			if(mp==null){
-				board[endx][endy]= p; 
-				board[startx][starty]=null; 
-			/*	if(enpassant_next){
+				if(tryMove(startx,starty,endx,endy,board,p)) {
+					board[endx][endy]= p; 
+					board[startx][starty]=null;
+					/*	if(enpassant_next){
 					enpassant=true; 
-				}
-				else{
-					enpassant=false; 
-				}
-				enpassant_next= false; 
-				System.out.println(enpassant);*/
-				updateEnpassant(); 
-				for(int i=0; i<8; i++){
-					for(int j=0; j<8; j++){
-						if(board[i][j]!=null){
-							if(board[i][j].check(i, j, board)){
-								if(board[i][j].color.equals("w")){
-									black_on_check= true; 
-								}
-								if(board[i][j].color.equals("b")){
-									white_on_check=true; 
-								}
-								break; 
-							} 
+					}
+					else{
+						enpassant=false; 
+					}
+					enpassant_next= false; 
+					System.out.println(enpassant);*/
+					updateEnpassant(); 
+					allCheck(board);
+					if(p.toString().substring(1).equalsIgnoreCase("P")) {
+						if (p.toString().substring(0).equals("b")) {
+							if (endx==7) {
+								promotePiece(endx,endy,promotedPiece,"b");
+								
+							}
+						}else {
+							if(endx==0) {
+								promotePiece(endx,endy,promotedPiece,"w");
+							}
 						}
 					}
+					return true; //movement is made
+				}else {
+					System.out.println("Illegal move, try again");
+					return false; 
 				}
-				return true; //movement is made
-			}
-			else{
+				
+			}else{
 				if(mp.color.equals(p.color)){ //checks to see if another piece of the same player occupies that spot
 					System.out.println("Illegal move, try again");
 					return false;
@@ -201,25 +212,16 @@ public class ChessBoard {
 						}
 						kingCaptured= true; 
 					}
-					board[endx][endy]= p; 
-					board[startx][starty]=null; 
-					updateEnpassant(); 
-					for(int i=0; i<8; i++){
-						for(int j=0; j<8; j++){
-							if(board[i][j]!=null){
-								if(board[i][j].check(i, j, board)){
-									if(board[i][j].color.equals("w")){
-										black_on_check= true; 
-									}
-									if(board[i][j].color.equals("b")){
-										white_on_check=true; 
-									}
-									break; 
-								} 
-							}
-						}
-					} 
-					return true; //movement is made 
+					if(tryMove(startx,starty,endx,endy,board,p)) {
+						board[endx][endy]= p; 
+						board[startx][starty]=null; 
+						updateEnpassant(); 
+						allCheck(board);
+						return true; //movement is made 
+					}else {
+						System.out.println("Illegal move, try again");
+						return false; 
+					}
 				}
 			}
 			
@@ -229,6 +231,80 @@ public class ChessBoard {
 		}
 		return false; 
 	} 
+	
+	public void promotePiece(int endx, int endy, String promotedPiece,String color) {
+		
+		if (!promotedPiece.equals("")) {
+			if (promotedPiece.equalsIgnoreCase("R")) {
+				board[endx][endy] = new Rook(color);
+			}else if (promotedPiece.equalsIgnoreCase("N")) {
+				board[endx][endy] = new Knight(color);
+			}else if (promotedPiece.equalsIgnoreCase("B")) {
+				board[endx][endy] = new Bishop(color);
+			}else if (promotedPiece.equalsIgnoreCase("Q")) {
+				board[endx][endy] = new Queen(color);
+			}
+		}else { //default promotion to Queen
+			board[endx][endy] = new Queen(color);
+		}
+	}
+	
+	public String allCheck(Piece[][] board2) {
+		//System.out.println("starting all Check");
+		for(int i=0; i<8; i++){
+			for(int j=0; j<8; j++){
+				if(board2[i][j]!=null){
+					if(board2[i][j].check(i, j, board2)){
+						//System.out.println("got here");
+						if(board2[i][j].color.equals("w")){
+							black_on_check= true; 
+							//System.out.println("black king checked");
+							return "black";
+						}
+						if(board2[i][j].color.equals("b")){
+							white_on_check=true; 
+							//System.out.println("white king checked");
+							return "white";
+						}
+						break; 
+					} 
+				}
+			}
+		}
+		return "";
+	}
+	
+	public boolean tryMove(int x, int y, int a, int b, Piece[][] board3,Piece p) {
+		//System.out.println("starting try move");
+		Piece replaced = board3[a][b];
+		board3[a][b]= p;
+		//System.out.println("value of x:"+a+" value of y: "+b);
+		//System.out.println("value of starting x:"+x+" value of y: "+y);
+		board3[x][y]=null; 
+		String checker = allCheck(board3);
+		if(checker.equals("black")){ //black king checked
+			if(p.color.equals("b")) {
+				black_on_check= false;
+				board3[x][y]=p;
+				board3[a][b]=replaced;
+				return false;	//can't move piece so own king is checked
+			}else {
+				return true;
+			}
+		}else if(checker.equals("white")) { //white king checked
+			if(p.color.equals("w")) {
+				white_on_check= false;
+				board3[x][y]=p;
+				board3[a][b]=replaced;
+				return false;	//can't move piece so own king is checked
+			}else {
+				return true;
+			}
+		}else {
+			return true;
+		}				
+	}
+	
 	public void updateEnpassant(){
 		for (int i=0; i<8; i++){
 			for(int j=0; j<8; j++){

@@ -79,6 +79,8 @@ public class Chess {
 			if(moves.length==3){
 				if (moves[2].equals("draw?")){
 					game.drawRequest=true; 
+				}else {
+					String promotedPiece = moves[2];
 				}
 			}
 
