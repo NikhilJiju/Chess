@@ -55,7 +55,7 @@ public class ChessBoard {
 	 */
 	public void makeBoard(){
 		//fill second row black pawns
-		/*for(int j=0;j<8;j++){
+		for(int j=0;j<8;j++){
 			board[1][j]=new Pawn("b"); ; 
 		} 
 		board[0][0]= new Rook("b");
@@ -77,10 +77,11 @@ public class ChessBoard {
 		board[7][4]= new King("w"); 
 		board[7][5]= new Bishop("w"); 
 		board[7][6]= new Knight("w");
-		board[7][7]= new Rook("w");*/
+		board[7][7]= new Rook("w");
 		
-		board[1][0] = new Pawn("w");
+	/*	board[1][1] = new King("w");
 		board[6][0] = new Pawn("b");
+		board[6][1] = new Rook("b");*/
 		
 		//initialize the string version 
 		pboard[8][0]=" a"; 

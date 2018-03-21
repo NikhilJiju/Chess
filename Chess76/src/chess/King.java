@@ -43,6 +43,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -56,6 +57,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -69,6 +71,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -82,6 +85,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -95,6 +99,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -108,6 +113,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -121,6 +127,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -134,6 +141,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -149,6 +157,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -162,6 +171,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -175,6 +185,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -188,6 +199,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;	
@@ -201,6 +213,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -214,6 +227,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -227,6 +241,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
@@ -240,6 +255,7 @@ public class King extends Piece{
 						break;
 					}
 				}
+				break;
 			}
 			
 			x = origX; y = origY;
