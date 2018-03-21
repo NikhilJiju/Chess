@@ -106,6 +106,33 @@ public class Pawn extends Piece{
 		return false;
 	}
 	
+	public boolean stalemate(int x, int y, Piece[][] board, String colour){
+		if(colour.equals("w")){
+			if(x-1>=0 && board[x-1][y]==null && ChessBoard.tryMove(x,y,x-1,y,board,board[x][y])){
+				return false; 
+			}
+			if(y+1<8 && x-1>=0 &&  board[x-1][y+1]!=null && !board[x-1][y+1].color.equals(colour) && ChessBoard.tryMove(x,y,x-1,y+1,board,board[x][y])){
+				return false; 
+			}
+			if(y-1>=0 && x-1>=0 &&  board[x-1][y-1]!=null && !board[x-1][y-1].color.equals(colour) && ChessBoard.tryMove(x,y,x-1,y-1,board,board[x][y])){
+				return false; 
+			}
+		}
+		if(colour.equals("b")){
+			if(x+1<8 && board[x+1][y]==null && ChessBoard.tryMove(x,y,x+1,y,board,board[x][y])) {
+				return false;
+			}
+			if(y+1<8 && x+1<8 && board[x+1][y+1]!=null && !board[x+1][y+1].color.equals(colour) && ChessBoard.tryMove(x,y,x+1,y+1,board,board[x][y])) {
+				return false;
+			}
+			if(y-1>=0 && x+1<8 && board[x+1][y-1]!=null && !board[x+1][y-1].color.equals(colour) && ChessBoard.tryMove(x,y,x+1,y-1,board,board[x][y])) {
+				return false;
+			}
+		}
+		return true; 
+	}
+	
+	
 	/**
 	 * Gives a string representation using color and the name "P". 
 	 */
