@@ -55,7 +55,7 @@ public class ChessBoard {
 	 */
 	public void makeBoard(){
 		//fill second row black pawns
-		for(int j=0;j<8;j++){
+		/*for(int j=0;j<8;j++){
 			board[1][j]=new Pawn("b"); ; 
 		} 
 		board[0][0]= new Rook("b");
@@ -70,20 +70,17 @@ public class ChessBoard {
 		for(int j=0; j<8; j++){ 
 			board[6][j]=new Pawn("w"); 
 		}
-		//board[2][4]=new King("w");
 		board[7][0]= new Rook("w");
 		board[7][1]= new Knight("w"); 
 		board[7][2]= new Bishop("w");  
 		board[7][3]= new Queen("w"); 
 		board[7][4]= new King("w"); 
-
-		//board[7][5]= new Bishop("w"); 
-		//board[3][7]= new Knight("w");
-
 		board[7][5]= new Bishop("w"); 
 		board[7][6]= new Knight("w");
-
-		board[7][7]= new Rook("w");
+		board[7][7]= new Rook("w");*/
+		
+		board[1][0] = new Pawn("w");
+		board[6][0] = new Pawn("b");
 		
 		//initialize the string version 
 		pboard[8][0]=" a"; 
@@ -395,10 +392,10 @@ public class ChessBoard {
 					}
 					
 					if(p.toString().substring(1).equalsIgnoreCase("P")) {
-						if (p.toString().substring(0).equals("b")) {
+						if (p.toString().charAt(0)=='b') {
 							if (endx==7) {
+								System.out.println("got here!");
 								promotePiece(endx,endy,promotedPiece,"b");
-								
 							}
 						}else {
 							if(endx==0) {
@@ -636,7 +633,6 @@ public class ChessBoard {
 									 break; 
 								}
 							}
-							
 						}
 					}
 				}
@@ -644,9 +640,8 @@ public class ChessBoard {
 			}
 			else{
 				return false; 
-			}		
+			}
 		}
-
 	}
 	
 	public void promotePiece(int endx, int endy, String promotedPiece,String color) {
