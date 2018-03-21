@@ -392,9 +392,8 @@ public class ChessBoard {
 					}
 					
 					if(p.toString().substring(1).equalsIgnoreCase("P")) {
-						if (p.toString().charAt(0)=='b') {
+						if (p.toString().charAt(0)=='b'){
 							if (endx==7) {
-								System.out.println("got here!");
 								promotePiece(endx,endy,promotedPiece,"b");
 							}
 						}else {
