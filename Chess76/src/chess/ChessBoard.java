@@ -35,8 +35,17 @@ public class ChessBoard {
 	boolean drawRequest= false; 
 	boolean white_on_check= false; 
 	boolean black_on_check= false; 
+
+	boolean rookLB_moved = false;
+	boolean rookRB_moved = false;
+	boolean rookLW_moved = false;
+	boolean rookRW_moved = false;
+	boolean kingB_moved = false;
+	boolean kingW_moved = false;
+
 	boolean white_on_checkmate= false; 
 	boolean black_on_checkmate= false; 
+//bsonani@bitbucket.org/NijuFir/chess76.git
 	/**
 	 * The method begins by first filling the 8x8 array of pieces called board in the way a chess board is filled. Each 
 	 * piece is given the right rank of pawn, rook, etc. Also it is given the corresponding color. The rest of the board 
@@ -61,13 +70,19 @@ public class ChessBoard {
 		for(int j=0; j<8; j++){ 
 			board[6][j]=new Pawn("w"); 
 		}
+		//board[2][4]=new King("w");
 		board[7][0]= new Rook("w");
 		board[7][1]= new Knight("w"); 
 		board[7][2]= new Bishop("w");  
 		board[7][3]= new Queen("w"); 
 		board[7][4]= new King("w"); 
+
+		//board[7][5]= new Bishop("w"); 
+		//board[3][7]= new Knight("w");
+
 		board[7][5]= new Bishop("w"); 
 		board[7][6]= new Knight("w");
+
 		board[7][7]= new Rook("w");
 		
 		//initialize the string version 
@@ -166,8 +181,128 @@ public class ChessBoard {
 			System.out.println("Illegal move, try again");
 			return false; 
 		}
-		//here!! - CANNOT CREATE COPY OF BOARD - REFERS TO SAME BOARD
-		//Piece[][] tryBoard = board;
+
+		
+		if(p.toString().substring(1).equals("K")) { //check if piece being moved is king
+			if(Math.abs(endy-starty)==2) {
+				if(Math.abs(endx-startx)==0 && (endx==7||endx==0)) {
+					System.out.println("DETECTED CASTLING MOVE!");
+					if(castling(startx,starty,endx,endy,pcolor)) { 
+						//****have to check if castling causes king to put into check,
+						//so create tryCastling method and then call allCheck
+						//actually execute castling move
+						if(endy>starty) { //castling to the right rook
+							int rookX = startx;
+							int rookY = 7;
+							int newRooky = endy-1;
+							Piece castledRook = board[rookX][rookY];
+							board[rookX][newRooky]=castledRook;
+							board[rookX][rookY]=null;
+							board[endx][endy]=p;
+							board[startx][starty]=null;
+							if(pcolor.equals("b")){
+								rookRB_moved=true;
+								kingB_moved=true;
+								String kingChecker = allCheck(board);
+								if(kingChecker.equals("black")){
+									//undo castling
+									board[startx][starty]=p;
+									board[rookX][newRooky]=null;
+									board[rookX][rookY]=castledRook;
+									board[endx][endy]=null;
+									black_on_check = false;
+									System.out.println("Illegal move, try again"); 
+									return false;
+								}else if(kingChecker.equals("white")){
+									//it's ok
+								}else {
+									//it's ok
+								}
+								updateEnpassant();
+								return true;
+							}else{
+								rookRW_moved=true;
+								kingW_moved=true;
+								String kingChecker = allCheck(board);
+								if(kingChecker.equals("white")){
+									//undo castling
+									board[startx][starty]=p;
+									board[rookX][newRooky]=null;
+									board[rookX][rookY]=castledRook;
+									board[endx][endy]=null;
+									white_on_check = false;
+									System.out.println("Illegal move, try again"); 
+									return false;
+								}else if(kingChecker.equals("black")){
+									//it's ok
+								}else {
+									//it's ok
+								}
+								updateEnpassant();
+								return true;
+							}
+						}else { //castling to left rook
+							int rookX = startx;
+							int rookY = 0;
+							int newRooky = endy+1;
+							Piece castledRook = board[rookX][rookY];
+							board[rookX][newRooky]=castledRook;
+							board[rookX][rookY]=null;
+							board[endx][endy]=p;
+							board[startx][starty]=null;
+							if(pcolor.equals("b")){
+								rookLB_moved=true;
+								kingB_moved=true;
+								String kingChecker = allCheck(board);
+								if(kingChecker.equals("black")){
+									//undo castling
+									board[startx][starty]=p;
+									board[rookX][newRooky]=null;
+									board[rookX][rookY]=castledRook;
+									board[endx][endy]=null;
+									black_on_check = false;
+									System.out.println("Illegal move, try again"); 
+									return false;
+								}else if(kingChecker.equals("white")){
+									//it's ok
+								}else {
+									//it's ok
+								}
+								updateEnpassant();
+								return true;
+							}else{
+								rookLW_moved=true;
+								kingW_moved=true;
+								String kingChecker = allCheck(board);
+								if(kingChecker.equals("white")){
+									//undo castling
+									board[startx][starty]=p;
+									board[rookX][newRooky]=null;
+									board[rookX][rookY]=castledRook;
+									board[endx][endy]=null;
+									white_on_check = false;
+									System.out.println("Illegal move, try again"); 
+									return false;
+								}else if(kingChecker.equals("black")){
+									//it's ok
+								}else {
+									//it's ok
+								}
+								updateEnpassant();
+								return true;
+							}
+						}
+					}else {
+						System.out.println("Illegal move, try again");
+						return false;
+					}
+				}else {
+					System.out.println("Illegal move, try again");
+					return false;
+				}
+			}
+		}
+		
 		if(p.move(startx,starty,endx,endy,board)){
 			Piece mp= board[endx][endy]; 
 			if(mp==null){
@@ -226,6 +361,39 @@ public class ChessBoard {
 						} 
 					}
 					allCheck(board);
+					//checking if any of the rooks moved, set booleans accordingly
+					if (startx==0 && starty==0) {
+						if (p.toString().equals("bR")){
+							rookLB_moved=true;
+						}
+					}
+					if (startx==0 && starty==7) {
+						if (p.toString().equals("bR")){
+							rookRB_moved=true;
+						}
+					}
+					if (startx==7 && starty==0) {
+						if (p.toString().equals("wR")){
+							rookLW_moved=true;
+						}
+					}
+					if (startx==7 && starty==7) {
+						if (p.toString().equals("wR")){
+							rookRW_moved=true;
+						}
+					}
+					//similarly check if kings have moved
+					if (startx==0 && starty==4) {
+						if (p.toString().equals("bK")){
+							kingB_moved=true;
+						}
+					}
+					if (startx==7 && starty==4) {
+						if (p.toString().equals("wK")){
+							kingW_moved=true;
+						}
+					}
+					
 					if(p.toString().substring(1).equalsIgnoreCase("P")) {
 						if (p.toString().substring(0).equals("b")) {
 							if (endx==7) {
@@ -300,6 +468,100 @@ public class ChessBoard {
 		return false; 
 	} 
 	
+
+	public boolean castling(int startx, int starty, int endx, int endy, String color) {
+		if(color.equals("b")) {
+			if (rookLB_moved||rookRB_moved||kingB_moved||black_on_check) { //one of the pieces moved
+				return false;
+			}else { //no pieces moved
+				if (startx==0) { // should be in first rank
+					if (endy>starty) { //moving black king to right
+						int pos = starty+1;
+						int count=0;
+						while(true) {
+							if(count==2) {
+								return true;
+							}
+							if(board[startx][pos]!=null) {
+								/*if(board[startx][pos].toString().equals("bR")) {
+									return true; //all conditions for castling met
+								}*/
+								return false;
+							}else {
+								pos++;
+							}
+							count++;
+						}
+					}else { //moving black king to left
+						int pos = starty-1;
+						int count=0;
+						while(true) {
+							if(count==2) {
+								return true;
+							}
+							if(board[startx][pos]!=null) {
+								/*if(board[startx][pos].toString().equals("bR")) {
+									return true; //all conditions for castling met
+								}*/
+								return false;
+							}else {
+								pos--;
+							}
+							count++;
+						}
+					}
+				}else {
+					return false;
+				}
+			}
+		}else if (color.equals("w")) {
+			if (rookLW_moved||rookRW_moved||kingW_moved||white_on_check) { //one of the pieces moved
+				return false;
+			}else { //no pieces moved
+				if (startx==7) { // should be in last rank
+					if (endy>starty) { //moving white king to right
+						int pos = starty+1;
+						int count=0;
+						while(true) {
+							if(count==2) {
+								return true;
+							}
+							if(board[startx][pos]!=null) {
+								/*if(board[startx][pos].toString().equals("wR")) {
+									return true; //all conditions for castling met
+								}*/
+								return false;
+							}else {
+								pos++;
+							}
+							count++;
+						}
+						
+					}else { //moving white king to left
+						int pos = starty-1;
+						int count=0;
+						while(true) {
+							if(count==2) {
+								return true;
+							}
+							if(board[startx][pos]!=null) {
+								/*if(board[startx][pos].toString().equals("wR")) {
+									return true; //all conditions for castling met
+								}*/
+								return false;
+							}else {
+								pos--;
+							}
+							count++;
+						}
+					}
+				}else {
+					return false;
+				}
+			}	
+		}
+		return false;
+	}
 	public boolean canKill(String color){
 		
 		ArrayList<Integer[]> checkers= new ArrayList<Integer[]>(); 
@@ -384,6 +646,7 @@ public class ChessBoard {
 				return false; 
 			}		
 		}
+
 	}
 	
 	public void promotePiece(int endx, int endy, String promotedPiece,String color) {
