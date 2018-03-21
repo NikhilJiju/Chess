@@ -36,6 +36,16 @@ public class Chess {
 				System.out.println();
 			}
 			if(counter%2==0){
+				color= "w";
+			}
+			else{
+				color= "b";
+			}
+			if(game.inStalemate(color)){
+				System.out.println("Stalemate");
+				break;
+			}
+			if(counter%2==0){
 				color="w"; 
 				if(game.white_on_check){
 					if(game.white_on_checkmate){

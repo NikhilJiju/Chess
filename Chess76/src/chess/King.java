@@ -29,7 +29,7 @@ public class King extends Piece{
 		}
 		return false; 
 	}
-
+		
 	public boolean check(int x, int y, Piece[][] board){
 		int origX = x;
 		int origY = y;
@@ -261,6 +261,74 @@ public class King extends Piece{
 			x = origX; y = origY;
 		}
 		return false;
+	}
+	
+	public boolean stalemate(int i, int j, Piece[][] board, String colour){
+		if(i+1<8 && j+1<8){
+			if(board[i+1][j+1]==null && ChessBoard.tryMove(i,j,i+1,j+1,board,board[i][j])){
+				return false; 
+			}
+			if(board[i+1][j+1]!=null && !board[i+1][j+1].color.equals(colour) && ChessBoard.tryMove(i,j,i+1,j+1,board,board[i][j])){
+				return false; 
+			}
+		}
+		if(i+1<8 && j-1>=0){
+			if(board[i+1][j-1]==null && ChessBoard.tryMove(i,j,i+1,j-1,board,board[i][j])){
+				return false; 
+			}
+			if(board[i+1][j-1]!=null && !board[i+1][j-1].color.equals(colour) && ChessBoard.tryMove(i,j,i+1,j-1,board,board[i][j])){
+				return false; 
+			}
+		}
+		if(i+1<8){
+			if(board[i+1][j]==null && ChessBoard.tryMove(i,j,i+1,j,board,board[i][j])){
+				return false; 
+			}
+			if(board[i+1][j]!=null && !board[i+1][j].color.equals(colour) && ChessBoard.tryMove(i,j,i+1,j,board,board[i][j])){
+				return false; 
+			}
+		}
+		if(i-1>=0 && j+1<8){
+			if(board[i-1][j+1]==null && ChessBoard.tryMove(i,j,i-1,j+1,board,board[i][j])){
+				return false; 
+			}
+			if(board[i-1][j+1]!=null && !board[i-1][j+1].color.equals(colour) && ChessBoard.tryMove(i,j,i-1,j+1,board,board[i][j])){
+				return false; 
+			}
+		}
+		if(i-1>=0 && j-1>=0){
+			if(board[i-1][j-1]==null && ChessBoard.tryMove(i,j,i-1,j-1,board,board[i][j])){
+				return false; 
+			}
+			if(board[i-1][j-1]!=null && !board[i-1][j-1].color.equals(colour) && ChessBoard.tryMove(i,j,i-1,j-1,board,board[i][j])){
+				return false; 
+			}
+		}
+		if(i-1>=0){
+			if(board[i-1][j]==null && ChessBoard.tryMove(i,j,i-1,j,board,board[i][j])){
+				return false; 
+			}
+			if(board[i-1][j]!=null && !board[i-1][j].color.equals(colour) && ChessBoard.tryMove(i,j,i-1,j,board,board[i][j])){
+				return false; 
+			}
+		}
+		if(j+1<8){
+			if(board[i][j+1]==null && ChessBoard.tryMove(i,j,i,j+1,board,board[i][j])){
+				return false; 
+			}
+			if(board[i][j+1]!=null && !board[i][j+1].color.equals(colour) && ChessBoard.tryMove(i,j,i,j+1,board,board[i][j])){
+				return false; 
+			}
+		}
+		if(j-1>=0){
+			if(board[i][j-1]==null && ChessBoard.tryMove(i,j,i,j-1,board,board[i][j])){
+				return false; 
+			}
+			if(board[i][j-1]!=null && !board[i][j-1].color.equals(colour) && ChessBoard.tryMove(i,j,i,j-1,board,board[i][j])){
+				return false; 
+			}
+		}
+		return true; 
 	}
 	
 	/**

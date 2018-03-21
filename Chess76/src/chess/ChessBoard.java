@@ -56,32 +56,33 @@ public class ChessBoard {
 	public void makeBoard(){
 		//fill second row black pawns
 		for(int j=0;j<8;j++){
-			board[1][j]=new Pawn("b"); ; 
+			//board[1][j]=new Pawn("b"); ; 
 		} 
-		board[0][0]= new Rook("b");
-		board[0][1]= new Knight("b"); 
-		board[0][2]= new Bishop("b");  
-		board[0][3]= new Queen("b"); 
-		board[0][4]= new King("b"); 
-		board[0][5]= new Bishop("b"); 
-		board[0][6]= new Knight("b");
-		board[0][7]= new Rook("b");
+		//board[0][0]= new Rook("b");
+		//board[0][1]= new Knight("b"); 
+		//board[0][2]= new Bishop("b");  
+		//board[4][0]= new Queen("b"); 
+		//board[5][0]= new King("w"); 
+		//board[0][5]= new Bishop("b"); 
+		//board[0][6]= new Knight("b");
+		//board[0][7]= new Rook("b");
 		//fill 7th row with white pawns 
 		for(int j=0; j<8; j++){ 
-			board[6][j]=new Pawn("w"); 
+			//board[6][j]=new Pawn("w"); 
 		}
-		board[7][0]= new Rook("w");
-		board[7][1]= new Knight("w"); 
-		board[7][2]= new Bishop("w");  
-		board[7][3]= new Queen("w"); 
-		board[7][4]= new King("w"); 
-		board[7][5]= new Bishop("w"); 
-		board[7][6]= new Knight("w");
-		board[7][7]= new Rook("w");
+		//board[7][0]= new Rook("w");
+		//board[7][1]= new Knight("w"); 
+		//board[7][2]= new Bishop("w");  
+		//board[3][4]= new Queen("w"); 
+		//board[7][0]= new King("b"); 
+		//board[7][5]= new Bishop("w"); 
+		//board[7][6]= new Knight("w");
+		//board[7][7]= new Rook("w");
 		
-	/*	board[1][1] = new King("w");
-		board[6][0] = new Pawn("b");
-		board[6][1] = new Rook("b");*/
+		board[7][7]= new Pawn("b"); 
+		board[6][7]= new Pawn("w"); 
+		board[7][5]= new Pawn("w"); 
+		board[2][2]= new Pawn("b"); 
 		
 		//initialize the string version 
 		pboard[8][0]=" a"; 
@@ -575,7 +576,6 @@ public class ChessBoard {
 				}
 			}
 			if(checkers.size()==1){ 
-				
 				boolean cankill= false; 
 				Integer[] position= checkers.get(0); 
 				int a= position[0]; 
@@ -584,8 +584,11 @@ public class ChessBoard {
 					for(int j=0; j<8; j++){
 						if(board[i][j]!=null && board[i][j].color.equals("b") && board[i][j].move(i, j, a, b, board)){
 							//add condition where move does not leave king to be vulnerable 
+							System.out.println(i + " " + j);
 							if(tryMove(i,j,a,b,board,board[i][j])){
 								System.out.println(i + " " + j);
+								System.out.println("black " + black_on_check); 
+								System.out.println("white " + white_on_check);
 								if(board[i][j].toString().equals("bP")&&(b-j)==0){
 									 
 								}
@@ -696,6 +699,7 @@ public class ChessBoard {
 		String checker = allCheck(board3);
 		if(checker.equals("black")){ //black king checked
 			if(p.color.equals("b")) {
+				System.out.println("hererere");
 				black_on_check= false;
 				board3[x][y]=p;
 				board3[a][b]=replaced;
@@ -847,6 +851,20 @@ public class ChessBoard {
 			}
 		}
 	
+	public boolean inStalemate(String colour){
+		boolean inStalemate=true; 
+		for(int i=0; i<8; i++){
+			for(int j=0; j<8; j++){
+				if(board[i][j]!=null && board[i][j].color.equals(colour)){
+					if(!board[i][j].stalemate(i, j, board, colour)){
+						inStalemate= false; 
+					}
+				}
+			}
+		}
+		return inStalemate; 
+	}
+	 
 	public void updateEnpassant(){
 		for (int i=0; i<8; i++){
 			for(int j=0; j<8; j++){
