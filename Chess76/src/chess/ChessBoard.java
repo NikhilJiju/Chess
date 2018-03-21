@@ -33,8 +33,8 @@ public class ChessBoard {
 	 *//*
 	static boolean enpassant= false;*/ 
 	boolean drawRequest= false; 
-	boolean white_on_check= false; 
-	boolean black_on_check= false; 
+	static boolean white_on_check= false; 
+	static boolean black_on_check= false; 
 
 	boolean rookLB_moved = false;
 	boolean rookRB_moved = false;
@@ -666,7 +666,7 @@ public class ChessBoard {
 		}
 	}
 	
-	public String allCheck(Piece[][] board2) {
+	public static String allCheck(Piece[][] board2) {
 		//System.out.println("starting all Check");
 		for(int i=0; i<8; i++){
 			for(int j=0; j<8; j++){
@@ -691,7 +691,7 @@ public class ChessBoard {
 		return "";
 	}
 	
-	public boolean tryMove(int x, int y, int a, int b, Piece[][] board3,Piece p) {
+	public static boolean tryMove(int x, int y, int a, int b, Piece[][] board3,Piece p) {
 		//System.out.println("starting try move");
 		Piece replaced = board3[a][b];
 		board3[a][b]= p;

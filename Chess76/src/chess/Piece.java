@@ -37,6 +37,10 @@ public class Piece {
 		return false; 
 	}
 	
+	public boolean stalemate(int x, int y, Piece[][] board, String colour){
+		return false;
+	}
+	
 	/**
 	 * Gives a string representation of the piece. This method is only here so that it will be redefined in the subclasses. 
 	 */

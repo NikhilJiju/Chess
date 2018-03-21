@@ -359,6 +359,65 @@ public class Queen extends Piece{
 		return false;
 	}
 	
+	public boolean stalemate(int x, int y, Piece[][] board, String colour){
+		//move up
+				if(x+1<8 && board[x+1][y]==null && ChessBoard.tryMove(x,y,x+1,y,board,board[x][y])){
+					return false; 
+				}
+				if(x+1<8 && board[x+1][y]!=null && !board[x+1][y].color.equals(colour) && ChessBoard.tryMove(x,y,x+1,y,board,board[x][y])){
+					return false; 
+				}
+				//move down 
+				if(x-1>=0 && board[x-1][y]==null && ChessBoard.tryMove(x,y,x-1,y,board,board[x][y])){
+					return false; 
+				}
+				if(x-1>=0 && board[x-1][y]!=null && !board[x-1][y].color.equals(colour) && ChessBoard.tryMove(x,y,x-1,y,board,board[x][y])){
+					return false; 
+				}
+				//move left 
+				if(y-1>=0 && board[x][y-1]==null && ChessBoard.tryMove(x,y,x,y-1,board,board[x][y])){
+					return false; 
+				}
+				if(y-1>=0 && board[x][y-1]!=null && !board[x][y-1].color.equals(colour) && ChessBoard.tryMove(x,y,x,y-1,board,board[x][y])){
+					return false; 
+				}
+				//move right
+				if(y+1<8 && board[x][y+1]==null && ChessBoard.tryMove(x,y,x,y+1,board,board[x][y])){
+					return false; 
+				}
+				if(y+1<8 && board[x][y+1]!=null && !board[x][y+1].color.equals(colour) && ChessBoard.tryMove(x,y,x,y+1,board,board[x][y])){
+					return false; 
+				}
+				//movement up right 
+				if(x+1<8 && y+1<8 && board[x+1][y+1]==null && ChessBoard.tryMove(x,y,x+1,y+1,board,board[x][y])){
+					return false; 
+				}
+				if(x+1<8 && y+1<8 && board[x+1][y+1]!=null && !board[x+1][y+1].color.equals(colour) && ChessBoard.tryMove(x,y,x+1,y+1,board,board[x][y])){
+					return false; 
+				}
+				//movement up left
+				if(x+1<8 && y-1>=0 && board[x+1][y-1]==null && ChessBoard.tryMove(x,y,x+1,y-1,board,board[x][y])){
+					return false; 
+				}
+				if(x+1<8 && y-1>=0 && board[x+1][y-1]!=null && !board[x+1][y-1].color.equals(colour) && ChessBoard.tryMove(x,y,x+1,y-1,board,board[x][y])){
+					return false; 
+				}
+				//movement down right 
+				if(x-1>=0 && y+1<8 && board[x-1][y+1]==null && ChessBoard.tryMove(x,y,x-1,y+1,board,board[x][y])){
+					return false; 
+				}
+				if(x-1>=0 && y+1<8 && board[x-1][y+1]!=null && !board[x-1][y+1].color.equals(colour) && ChessBoard.tryMove(x,y,x-1,y+1,board,board[x][y])){
+					return false; 
+				}
+				//movement down left 
+				if(x-1>=0 && y-1>=0 && board[x-1][y-1]==null && ChessBoard.tryMove(x,y,x-1,y-1,board,board[x][y])){
+					return false; 
+				}
+				if(x-1>=0 && y-1>=0 && board[x-1][y-1]!=null && !board[x-1][y-1].color.equals(colour) && ChessBoard.tryMove(x,y,x-1,y-1,board,board[x][y])){
+					return false; 
+				} 
+				return true; 
+	}
 	
 	/**
 	 * Returns the string representation of Queen with color and name "Q". 
