@@ -67,7 +67,7 @@ public class ChessBoard {
 		board[7][3]= new Queen("w"); 
 		board[7][4]= new King("w"); 
 		board[7][5]= new Bishop("w"); 
-		board[3][7]= new Knight("w");
+		board[7][6]= new Knight("w");
 		board[7][7]= new Rook("w");
 		
 		//initialize the string version 
@@ -301,8 +301,10 @@ public class ChessBoard {
 	} 
 	
 	public boolean canKill(String color){
+		
 		ArrayList<Integer[]> checkers= new ArrayList<Integer[]>(); 
 		if(color.equals("w")){
+			
 			for(int i=0; i<8; i++){
 				for(int j=0; j<8; j++){
 					if(board[i][j]!=null && board[i][j].color.equals("w") && board[i][j].check(i, j, board)){
@@ -314,6 +316,7 @@ public class ChessBoard {
 				}
 			}
 			if(checkers.size()==1){ 
+				
 				boolean cankill= false; 
 				Integer[] position= checkers.get(0); 
 				int a= position[0]; 
@@ -323,6 +326,7 @@ public class ChessBoard {
 						if(board[i][j]!=null && board[i][j].color.equals("b") && board[i][j].move(i, j, a, b, board)){
 							//add condition where move does not leave king to be vulnerable 
 							if(tryMove(i,j,a,b,board,board[i][j])){
+								System.out.println(i + " " + j);
 								if(board[i][j].toString().equals("bP")&&(b-j)==0){
 									 
 								}
