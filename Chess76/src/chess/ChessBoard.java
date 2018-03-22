@@ -56,33 +56,30 @@ public class ChessBoard {
 	public void makeBoard(){
 		//fill second row black pawns
 		for(int j=0;j<8;j++){
-			//board[1][j]=new Pawn("b"); ; 
+			board[1][j]=new Pawn("b"); ; 
 		} 
-		//board[0][0]= new Rook("b");
-		//board[0][1]= new Knight("b"); 
-		//board[0][2]= new Bishop("b");  
-		//board[4][0]= new Queen("b"); 
-		//board[5][0]= new King("w"); 
-		//board[0][5]= new Bishop("b"); 
-		//board[0][6]= new Knight("b");
-		//board[0][7]= new Rook("b");
+		board[0][0]= new Rook("b");
+		board[0][1]= new Knight("b"); 
+		board[0][2]= new Bishop("b");  
+		board[0][3]= new Queen("b"); 
+		board[0][4]= new King("b"); 
+		board[0][5]= new Bishop("b"); 
+		board[0][6]= new Knight("b");
+		board[0][7]= new Rook("b");
 		//fill 7th row with white pawns 
 		for(int j=0; j<8; j++){ 
-			//board[6][j]=new Pawn("w"); 
+			board[6][j]=new Pawn("w"); 
 		}
-		//board[7][0]= new Rook("w");
-		//board[7][1]= new Knight("w"); 
-		//board[7][2]= new Bishop("w");  
-		//board[3][4]= new Queen("w"); 
-		//board[7][0]= new King("b"); 
-		//board[7][5]= new Bishop("w"); 
-		//board[7][6]= new Knight("w");
-		//board[7][7]= new Rook("w");
+		board[7][0]= new Rook("w");
+		board[7][1]= new Knight("w"); 
+		board[7][2]= new Bishop("w");  
+		board[7][3]= new Queen("w"); 
+		board[7][4]= new King("w"); 
+		board[7][5]= new Bishop("w"); 
+		board[7][6]= new Knight("w");
+		board[7][7]= new Rook("w");
 		
-		board[7][7]= new Pawn("b"); 
-		board[6][7]= new Pawn("w"); 
-		board[7][5]= new Pawn("w"); 
-		board[2][2]= new Pawn("b"); 
+	 
 		
 		//initialize the string version 
 		pboard[8][0]=" a"; 
@@ -344,6 +341,7 @@ public class ChessBoard {
 						}
 					}
 					if(color.equals("w")&&black_on_check){
+						System.out.println("yoyoyoy");
 						if(checkmate(bi,bj,color)){
 							if(!canKill("w")){
 								black_on_checkmate=true; 
@@ -434,7 +432,11 @@ public class ChessBoard {
 						}
 						board[endx][endy]= p; 
 						board[startx][starty]=null; 
-						updateEnpassant(); 
+						updateEnpassant();
+						int bi=0; 
+						int bj=0; 
+						int wi=0; 
+						int wj=0;
 						for(int i=0; i<8; i++){
 							for(int j=0; j<8; j++){
 								if(board[i][j]!=null){
@@ -445,11 +447,34 @@ public class ChessBoard {
 										if(board[i][j].color.equals("b")){
 											white_on_check=true; 
 										}
-										break; 
+										if(board[i][j].toString().equals("wK")){
+											wi= i; 
+											wj= j; 
+										}
+										if(board[i][j].toString().equals("bK")){
+											bi= i; 
+											bj= j; 
+										} 
 									} 
 								}
 							}
 						} 
+						if(color.equals("w")&&black_on_check){
+							if(checkmate(bi,bj,color)){
+								if(!canKill("w")){
+									black_on_checkmate=true; 
+									System.out.println("Checkmate White");
+								}
+							} 
+						}
+						if(color.equals("b")&&white_on_check){
+							if(checkmate(wi,wj,color)){
+								if(!canKill("b")){
+									white_on_checkmate=true; 
+									System.out.println("Checkmate Blac");
+								}
+							} 
+						}
 						allCheck(board);
 						return true; //movement is made 
 					}else {
@@ -561,7 +586,7 @@ public class ChessBoard {
 		return false;
 	}
 	public boolean canKill(String color){
-		
+		System.out.println("here i got 1");
 		ArrayList<Integer[]> checkers= new ArrayList<Integer[]>(); 
 		if(color.equals("w")){
 			
@@ -828,6 +853,7 @@ public class ChessBoard {
 					return false; //movement cannot be made
 				}
 				else{ //opposing players piece occupies the spot being moved to 
+					System.out.println("here i got");
 					Piece old= board[endx][endy]; 
 					board[endx][endy]= p; 
 					board[startx][starty]=null; 

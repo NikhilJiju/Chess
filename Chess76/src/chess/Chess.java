@@ -39,12 +39,12 @@ public class Chess {
 				color= "w";
 			}
 			else{
-				color= "b";
+				color= "b"; 
 			}
 			if(game.inStalemate(color)){
 				System.out.println("Stalemate");
 				break;
-			}
+			}			
 			if(counter%2==0){
 				color="w"; 
 				if(game.white_on_check){
