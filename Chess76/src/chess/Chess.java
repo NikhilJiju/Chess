@@ -35,16 +35,8 @@ public class Chess {
 				}
 				System.out.println();
 			}
-			if(counter%2==0){
-				color= "w";
-			}
-			else{
-				color= "b"; 
-			}
-			if(game.inStalemate(color)){
-				System.out.println("Stalemate");
-				break;
-			}			
+		
+						
 			if(counter%2==0){
 				color="w"; 
 				if(game.white_on_check){
@@ -56,6 +48,10 @@ public class Chess {
 					else{
 						System.out.println("Check");
 					}
+				}
+				if(game.inStalemate(color)){
+					System.out.println("Stalemate");
+					break;
 				}
 				System.out.print("White's move: ");
 			}
@@ -70,6 +66,10 @@ public class Chess {
 					else{
 						System.out.println("Check");
 					}
+				}
+				if(game.inStalemate(color)){
+					System.out.println("Stalemate");
+					break;
 				}
 				System.out.print("Black's move: ");
 			} 

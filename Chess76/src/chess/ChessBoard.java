@@ -79,14 +79,14 @@ public class ChessBoard {
 		board[7][6]= new Knight("w");
 		board[7][7]= new Rook("w");
 		
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	 
-=======
-		board[7][0]= new King("b"); 
-		board[5][0]= new King("w"); 
+//=======
+		//board[7][0]= new King("b"); 
+		//board[5][0]= new King("w"); 
 		//board[7][5]= new Pawn("w"); 
 		//board[2][2]= new Pawn("b"); 
->>>>>>> branch 'side' of https://NiJuFir@bitbucket.org/NijuFir/chess76.git
+//>>>>>>> branch 'side' of https://NiJuFir@bitbucket.org/NijuFir/chess76.git
 		
 		//initialize the string version 
 		pboard[8][0]=" a"; 
