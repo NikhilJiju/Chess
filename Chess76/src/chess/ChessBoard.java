@@ -35,15 +35,38 @@ public class ChessBoard {
 	boolean drawRequest= false; 
 	static boolean white_on_check= false; 
 	static boolean black_on_check= false; 
-
+	
+	/**
+	 * Keeps tracked if left black rook moved
+	 */
 	boolean rookLB_moved = false;
+	/**
+	 * Keeps tracked if right black rook moved
+	 */
 	boolean rookRB_moved = false;
+	/**
+	 * Keeps tracked if left white rook moved
+	 */
 	boolean rookLW_moved = false;
+	/**
+	 * Keeps tracked if right white rook moved
+	 */
 	boolean rookRW_moved = false;
+	/**
+	 * Keeps tracked if black king moved
+	 */
 	boolean kingB_moved = false;
+	/**
+	 * Keeps tracked if white king moved
+	 */
 	boolean kingW_moved = false;
-
+	/**
+	 * Keeps track of if white player is on checkmate
+	 */
 	boolean white_on_checkmate= false; 
+	/**
+	 * Keeps track of if black player is on checkmate
+	 */
 	boolean black_on_checkmate= false; 
 //bsonani@bitbucket.org/NijuFir/chess76.git
 	/**
@@ -521,8 +544,24 @@ public class ChessBoard {
 		return false; 
 	} 
 	
-
+	
+	/**
+	 * Castling checks whether or not the move on the king is valid for castling or not. The first condition 
+	 * is that it makes sure that the king and rook which the move involves, has never moved and the king is
+	 * not in check. It also confirms that the king and the rook are in the correct rank, meaning either in the
+	 * 7th or 1st rank. Lastly, the method checks that there are no pieces in between the king and the rook.
+	 * The only exception to this rule, is when the king castles queenside, and there is allowed to be one
+	 * piece next to the rook. Therefore, if all conditions are met, it returns a boolean confirming the validity
+	 * of the castle move or denying its possibility. 
+	 * @param startx The x-coordinate of the piece to be moved
+	 * @param starty The y-coordinate of the piece to be moved
+	 * @param endx The x-coordinate of where the piece will be moved to
+	 * @param endy The y-coordinate of where the piece will be moved to
+	 * @param color Color of the current player's turn
+	 * @return True if the conditions for a valid castling move are met, false otherwise
+	 */
 	public boolean castling(int startx, int starty, int endx, int endy, String color) {
+		Piece castleKing = board[startx][starty];
 		if(color.equals("b")) {
 			if (rookLB_moved||rookRB_moved||kingB_moved||black_on_check) { //one of the pieces moved
 				return false;
@@ -541,9 +580,22 @@ public class ChessBoard {
 								}*/
 								return false;
 							}else {
-								pos++;
+								if(count==0) {
+									if(tryMove(startx,starty,endx,starty+1,board,castleKing)) {
+										pos++;
+										count++;
+									}else {
+										return false;
+									}
+								}else if(count==1) {
+									if(tryMove(startx,starty+1,endx,starty+2,board,castleKing)) {
+										pos++;
+										count++;
+									}else {
+										return false;
+									}
+								}
 							}
-							count++;
 						}
 					}else { //moving black king to left
 						int pos = starty-1;
@@ -558,9 +610,23 @@ public class ChessBoard {
 								}*/
 								return false;
 							}else {
-								pos--;
+								if(count==0) {
+									if(tryMove(startx,starty,endx,starty-1,board,castleKing)) {
+										pos--;
+										count++;
+									}else {
+										return false;
+									}
+								}else if(count==1) {
+									if(tryMove(startx,starty-1,endx,starty-2,board,castleKing)) {
+										pos--;
+										count++;
+									}else {
+										return false;
+									}
+								}
 							}
-							count++;
+							
 						}
 					}
 				}else {
@@ -585,9 +651,22 @@ public class ChessBoard {
 								}*/
 								return false;
 							}else {
-								pos++;
+								if(count==0) {
+									if(tryMove(startx,starty,endx,starty+1,board,castleKing)) {
+										pos++;
+										count++;
+									}else {
+										return false;
+									}
+								}else if(count==1) {
+									if(tryMove(startx,starty+1,endx,starty+2,board,castleKing)) {
+										pos++;
+										count++;
+									}else {
+										return false;
+									}
+								}
 							}
-							count++;
 						}
 						
 					}else { //moving white king to left
@@ -603,9 +682,23 @@ public class ChessBoard {
 								}*/
 								return false;
 							}else {
-								pos--;
+								if(count==0) {
+									if(tryMove(startx,starty,endx,starty-1,board,castleKing)) {
+										pos--;
+										count++;
+									}else {
+										return false;
+									}
+								}else if(count==1) {
+									if(tryMove(startx,starty-1,endx,starty-2,board,castleKing)) {
+										pos--;
+										count++;
+									}else {
+										return false;
+									}
+								}
 							}
-							count++;
+							
 						}
 					}
 				}else {
@@ -615,6 +708,7 @@ public class ChessBoard {
 		}
 		return false;
 	}
+	
 	public boolean canKill(String color){
 		System.out.println("here i got 1");
 		ArrayList<Integer[]> checkers= new ArrayList<Integer[]>(); 
@@ -702,6 +796,20 @@ public class ChessBoard {
 		}
 	}
 	
+	
+	/**
+	 * This method does the job of promoting a pawn into another piece.
+	 * It only gets called if the player's instruction was to move a pawn 
+	 * and the pawn will be moved to the correct position for promotion. If, consequently, these conditions are 
+	 * met, then a pawn can successfully be promoted to another piece such as a Rook,Knight,Bishop,or a Queen.
+	 * If no piece is defined by the user, then the pawn automatically gets promoted to a Queen. So the method
+	 * replaces the spot of the pawn with the promoted piece. It ensures that the new piece is that same color
+	 * as the player's because of the parameter that was passed. 
+	 * @param endx The x-coordinate of where the pawn should be moved
+	 * @param endy The y-coordinate of where the pawn should be moved
+	 * @param promotedPiece The letter of the piece that the pawn should be promoted to. If blank, defaults to Queen
+	 * @param color Color of the current player's turn
+	 */
 	public void promotePiece(int endx, int endy, String promotedPiece,String color) {
 		
 		if (!promotedPiece.equals("")) {
@@ -719,6 +827,22 @@ public class ChessBoard {
 		}
 	}
 	
+	/**
+	 * This method is used to identify which kings are put on check given a chess board. So it 
+	 * goes through every spot on the chess board and if there is a piece present, it calls the 
+	 * check method on it, which is defined individually for every type of piece. If the check 
+	 * method returns to be true, then it sets the
+	 * field values of the class accordingly. So if the player that caused the check was a king, it
+	 * detects that this causes both kings to be put on check, and returns "both". Otherwise, 
+	 * it simply checks the color of the piece causing the check. If the color is white, then it sets the 
+	 * "black_on_check" field to true and returns black. Similarly, if the piece was white, it sets the
+	 * "white_on_check" field to true and returns white. If none of these cases exist, then the method 
+	 * sets no fields and simply returns "", indicating the chess board currently has no checks present.
+	 * @param board2 Reference to the main chess board
+	 * @return String indicating if the player's move causes any of the kings to be put on check.
+	 * "black" for putting the black king on check, "white" for the white king on check, "both"
+	 * for causing both kings to be put on check, and "" for no kings to be put on check
+	 */
 	public static String allCheck(Piece[][] board2) {
 		//System.out.println("starting all Check");
 		for(int i=0; i<8; i++){
@@ -749,6 +873,29 @@ public class ChessBoard {
 		return "";
 	}
 	
+	/**
+	 * This method temporarily attempts to execute the user's move and checks if it's valid. 
+	 * First, the method stores the current state of the chess board. Then, it executes the player's move.
+	 * It continues to call the allCheck method on the board with the executed move and stores the return
+	 * value in a String. Then it checks the string to determine if the move was valid. If the string is "black",
+	 * it means the king king was put on check, but if it was the black player's turn, then the move is 
+	 * deemed illegal, since a player can't take a move which causes its own king to be put on check. So
+	 * the "black_on_check" field is reset, the move is undone, meaning the original state of the chess board
+	 * is restored, and "false" is returned. Otherwise,if it was the white player's turn,
+	 * the move is valid. So the move is still undone and "true" is returned. A similar procedure occurs if
+	 * the string was "white". However, if the string was "both", the move is invalid regardless of whose
+	 * turn it is, so it resets both fields("black_on_check" and "white_on_check") and returns "false".
+	 * It's important to note that this
+	 * method is not responsible for executing a player's move, but rather just to test if the player's move is 
+	 * legal or illegal. It does that by temporarily executing the move and then undoing it. 
+	 * @param x The x-coordinate of the piece to be moved
+	 * @param y The y-coordinate of the piece to be moved
+	 * @param a The x-coordinate of where the piece will be moved to
+	 * @param b The y-coordinate of where the piece will be moved to
+	 * @param board3 Reference to the main chess board
+	 * @param p Piece to be moved
+	 * @return Boolean 
+	 */
 	public static boolean tryMove(int x, int y, int a, int b, Piece[][] board3,Piece p) {
 		//System.out.println("starting try move");
 		Piece replaced = board3[a][b];
