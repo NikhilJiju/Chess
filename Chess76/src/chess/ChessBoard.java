@@ -79,7 +79,14 @@ public class ChessBoard {
 		board[7][6]= new Knight("w");
 		board[7][7]= new Rook("w");
 		
+<<<<<<< HEAD
 	 
+=======
+		board[7][0]= new King("b"); 
+		board[5][0]= new King("w"); 
+		//board[7][5]= new Pawn("w"); 
+		//board[2][2]= new Pawn("b"); 
+>>>>>>> branch 'side' of https://NiJuFir@bitbucket.org/NijuFir/chess76.git
 		
 		//initialize the string version 
 		pboard[8][0]=" a"; 
@@ -696,6 +703,11 @@ public class ChessBoard {
 				if(board2[i][j]!=null){
 					if(board2[i][j].check(i, j, board2)){
 						//System.out.println("got here");
+						if(board2[i][j].toString().substring(1).equals("K")) {
+							black_on_check=true;
+							white_on_check=true;
+							return "both";
+						}
 						if(board2[i][j].color.equals("w")){
 							black_on_check= true; 
 							//System.out.println("black king checked");
@@ -745,6 +757,12 @@ public class ChessBoard {
 				board3[a][b]=replaced;
 				return true;
 			}
+		}else if(checker.equals("both")){
+			white_on_check=false;
+			black_on_check=false;
+			board3[x][y]=p;
+			board3[a][b]=replaced;
+			return false;
 		}else {
 			board3[x][y]=p;
 			board3[a][b]=replaced;
