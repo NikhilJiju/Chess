@@ -55,7 +55,7 @@ public class ChessBoard {
 	 */
 	public void makeBoard(){
 		//fill second row black pawns
-		for(int j=0;j<8;j++){
+/*		for(int j=0;j<8;j++){
 			board[1][j]=new Pawn("b"); ; 
 		} 
 		board[0][0]= new Rook("b");
@@ -77,16 +77,36 @@ public class ChessBoard {
 		board[7][4]= new King("w"); 
 		board[7][5]= new Bishop("w"); 
 		board[7][6]= new Knight("w");
-		board[7][7]= new Rook("w");
+		board[7][7]= new Rook("w");*/
 		
 //<<<<<<< HEAD
 	 
-//=======
-		//board[7][0]= new King("b"); 
-		//board[5][0]= new King("w"); 
-		//board[7][5]= new Pawn("w"); 
-		//board[2][2]= new Pawn("b"); 
-//>>>>>>> branch 'side' of https://NiJuFir@bitbucket.org/NijuFir/chess76.git
+		board[0][0]= new Rook("b"); 
+		board[0][5]= new Rook("b"); 
+		board[0][6]= new King("b"); 
+		board[1][1]= new Pawn("b"); 
+		board[1][2]= new Pawn("b"); 
+		board[1][4]= new Bishop("b"); 
+		board[1][6]= new Pawn("b"); 
+		board[1][7]= new Pawn("b"); 
+		board[2][0]= new Pawn("b"); 
+		board[2][5]= new Pawn("b"); 
+		board[3][2]= new Pawn("b"); 
+		board[3][5]= new Pawn("w"); 
+		board[4][0]= new Pawn("w"); 
+		board[4][2]= new Pawn("w"); 
+		board[5][1]= new Pawn("w"); 
+		board[5][3]= new Queen("b"); 
+		board[5][5]= new Knight("w"); 
+		board[5][6]= new Pawn("w"); 
+		board[6][5]= new Pawn("w"); 
+		board[6][6]= new Pawn("w"); 
+		board[7][0]= new Rook("w"); 
+		board[7][2]= new Bishop("w"); 
+		board[7][5]= new Rook("w"); 
+		board[7][7]= new King("w"); 
+		
+		
 		
 		//initialize the string version 
 		pboard[8][0]=" a"; 
@@ -446,6 +466,7 @@ public class ChessBoard {
 						int wj=0;
 						for(int i=0; i<8; i++){
 							for(int j=0; j<8; j++){
+								
 								if(board[i][j]!=null){
 									if(board[i][j].check(i, j, board)){
 										if(board[i][j].color.equals("w")){
@@ -454,14 +475,16 @@ public class ChessBoard {
 										if(board[i][j].color.equals("b")){
 											white_on_check=true; 
 										}
-										if(board[i][j].toString().equals("wK")){
-											wi= i; 
-											wj= j; 
-										}
-										if(board[i][j].toString().equals("bK")){
-											bi= i; 
-											bj= j; 
-										} 
+										
+									} 
+									if(board[i][j].toString().equals("wK")){
+										wi= i; 
+										wj= j; 
+										
+									}
+									if(board[i][j].toString().equals("bK")){
+										bi= i; 
+										bj= j; 
 									} 
 								}
 							}
@@ -814,7 +837,9 @@ public class ChessBoard {
 					} 
 				}
 			}
+			System.out.println(i-1);
 			if(i-1>=0){
+				System.out.println("dddddd");
 				if(king.move(i,j,i-1,j,board)){
 					System.out.println("here 5");
 					if(checkmove(i,j,i-1,j,color)){
