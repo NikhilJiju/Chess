@@ -57,6 +57,9 @@ public class Rook extends Piece{
 		return false; 
 	}
 	
+	/**
+	 *  Checks if queen piece is in position to cause a check
+	 */
 	public boolean check(int x, int y, Piece[][] board){
 		int origX = x;
 		int origY = y;

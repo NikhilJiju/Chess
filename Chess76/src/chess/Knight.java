@@ -25,7 +25,9 @@ public class Knight extends Piece{
 		}
 		return false; 
 	}
-	
+	/**
+	 *  Checks if knight piece is in position to cause a check
+	 */
 	public boolean check(int x, int y, Piece[][] board){
 		if(color.equals("b")){
 			if(x+2<8 && y+1<8 && board[x+2][y+1]!=null && board[x+2][y+1].toString().equals("wK")){

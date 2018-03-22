@@ -85,7 +85,9 @@ public class Pawn extends Piece{
 	
 		return false; 
 	}
-	
+	/**
+	 *  Checks if pawn piece is in position to cause a check
+	 */
 	public boolean check(int x, int y, Piece[][] board){
 		if(color.equals("b")){
 			if(y+1<8 && x+1<8 && board[x+1][y+1]!=null && board[x+1][y+1].toString().equals("wK")) {

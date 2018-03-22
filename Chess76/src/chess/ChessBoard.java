@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *  This class contains the chess game as an array and delegates the actions requested from the main class. 
- * @author 
+ * @author Nikhil Jiju and Bhargav Sonani
  *
  *
  */
@@ -78,7 +78,7 @@ public class ChessBoard {
 	 */
 	public void makeBoard(){
 		//fill second row black pawns
-/*		for(int j=0;j<8;j++){
+		for(int j=0;j<8;j++){
 			board[1][j]=new Pawn("b"); ; 
 		} 
 		board[0][0]= new Rook("b");
@@ -100,11 +100,11 @@ public class ChessBoard {
 		board[7][4]= new King("w"); 
 		board[7][5]= new Bishop("w"); 
 		board[7][6]= new Knight("w");
-		board[7][7]= new Rook("w");*/
+		board[7][7]= new Rook("w");
 		
 //<<<<<<< HEAD
 	 
-		board[0][0]= new Rook("b"); 
+		/*board[0][0]= new Rook("b"); 
 		board[0][5]= new Rook("b"); 
 		board[0][6]= new King("b"); 
 		board[1][1]= new Pawn("b"); 
@@ -128,7 +128,7 @@ public class ChessBoard {
 		board[7][2]= new Bishop("w"); 
 		board[7][5]= new Rook("w"); 
 		board[7][7]= new King("w"); 
-		
+		*/
 		
 		
 		//initialize the string version 
@@ -708,7 +708,11 @@ public class ChessBoard {
 		}
 		return false;
 	}
-	
+	/**
+	 * Determines if a piece that is put on check by opponent king can be killed. If multiple are killing, the opponent piece cannot be killed
+	 * @param color The color of the current player's piece
+	 * @return Boolean True if can be killed, false if cannot be killed
+	 */
 	public boolean canKill(String color){
 		System.out.println("here i got 1");
 		ArrayList<Integer[]> checkers= new ArrayList<Integer[]>(); 
@@ -940,6 +944,13 @@ public class ChessBoard {
 		}				
 	}
 	
+	/**
+	 * Looks if kings can move to any of the 8 possible squares around it. Determines if it's possible for the king to make a move
+	 * @param i Current x position of king
+	 * @param j Current y position of king
+	 * @param color Color of the current player's king
+	 * @return Boolean true if no moves possible, otherwise false
+	 */
 	private boolean checkmate(int i, int j, String color) {
 		// TODO Auto-generated method stub
 		System.out.println(board[i][j]);
@@ -1014,7 +1025,15 @@ public class ChessBoard {
 			return true; 
 		
 	}
-	
+	/**
+	 * Checks to see if spot that king is being moved to will cause it to be put on check
+	 * @param startx Beginning x position of piece
+	 * @param starty Beginning y position of piece
+	 * @param endx Ending x position of piece
+	 * @param endy Ending y position of piece
+	 * @param color Color of current player piece
+	 * @return Boolean - True if spot being moved to will cause a check, otherwise false
+	 */
 	 public boolean checkmove(int startx, int starty, int endx, int endy, String color){
 	    	Piece mp= board[endx][endy]; 
 	    	Piece p= board[startx][starty];
@@ -1066,7 +1085,11 @@ public class ChessBoard {
 				}
 			}
 		}
-	
+	/**
+	 * Goes through every piece of current player's piece and determines if piece can make a move
+	 * @param colour Color of current player's piece
+	 * @return Boolean - true if no moves possible, otherwise false
+	 */
 	public boolean inStalemate(String colour){
 		boolean inStalemate=true; 
 		for(int i=0; i<8; i++){
